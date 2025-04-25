@@ -17,4 +17,4 @@
 .vscode/
 .idea/
 .DS_Store
-.vsidx
+*.vsidx
