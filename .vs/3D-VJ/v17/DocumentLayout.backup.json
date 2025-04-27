@@ -1,12 +1,53 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4D6FE8CA-A2B0-9E69-4236-2AD53C4F1B88}|Assembly-CSharp.csproj|c:\\users\\joanv\\source\\repos\\vilavilla\\3d-vj\\assets\\scripts\\blockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D6FE8CA-A2B0-9E69-4236-2AD53C4F1B88}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\blockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D6FE8CA-A2B0-9E69-4236-2AD53C4F1B88}|Assembly-CSharp.csproj|C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\assets\\scripts\\followtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D6FE8CA-A2B0-9E69-4236-2AD53C4F1B88}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\followtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BlockController.cs",
+              "DocumentMoniker": "C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\Assets\\Scripts\\BlockController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\BlockController.cs",
+              "ToolTip": "C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\Assets\\Scripts\\BlockController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\BlockController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T15:33:24.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FollowTarget.cs",
+              "DocumentMoniker": "C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\Assets\\Scripts\\FollowTarget.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FollowTarget.cs",
+              "ToolTip": "C:\\Users\\joanv\\source\\repos\\vilavilla\\3D-VJ\\Assets\\Scripts\\FollowTarget.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FollowTarget.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T13:27:55.279Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
