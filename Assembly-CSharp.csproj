@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\TimedDestroy.cs" />
     <Compile Include="Assets\Scripts\PaddleController.cs" />
     <Compile Include="Assets\Scripts\CreatePipes.cs" />
+    <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\DieBird.cs" />
   </ItemGroup>
   <ItemGroup>
