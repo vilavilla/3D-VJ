@@ -19,3 +19,22 @@
 .DS_Store
 *.vsidx
 .vs/
+Logs/
+*.log
+*-prev.log
+
+# Ignorar carpetas de compilación de MSBuild
+obj/
+Debug/
+Release/
+
+# Ignorar layouts de usuario de Unity/VS
+UserSettings/Layouts/
+
+# Ignorar proyectos y soluciones generados
+*.csproj
+*.sln
+
+
+# Ignorar settings de Code Coverage de Unity Test Tools
+ProjectSettings/Packages/com.unity.testtools.codecoverage*/Settings.json
