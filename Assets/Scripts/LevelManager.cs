@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     public GameObject[] blockPrefabs;
@@ -9,9 +8,9 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     // Ajustes específicos para tu escena:
     public float floorY = -3f;         // Altura del centro del suelo
-    public float floorThickness = 1f;  // Su altura total (scale.y)
-    public float blockHeight = 4f;     // Altura total de tu block prefab (scale.y)
-    public float verticalSpacing = 10f; // Espacio extra entre filas
+    public float floorThickness = -1f;  // Su altura total (scale.y)
+    public float blockHeight = 2f;     // Altura total de tu block prefab (scale.y)
+    public float verticalSpacing = 2f; // Espacio extra entre filas
 
     private int[,] levelMap = new int[,]
     {
@@ -47,7 +46,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
                     GameObject block = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
                     // Asegúrate de que no caiga al inicio
-                   
+
                 }
             }
         }
@@ -55,6 +54,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
