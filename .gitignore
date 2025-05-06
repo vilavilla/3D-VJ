@@ -1,11 +1,15 @@
+# ====== Unity cachés y builds ======
 [Ll]ibrary/
 [Tt]emp/
 [Bb]uild/
 [Bb]uilds/
-.obj/
+obj/
+Debug/
+Release/
+
+# ====== Proyectos y binarios generados ======
 *.csproj
 *.sln
-*.user
 *.unityproj
 *.pidb
 *.booproj
@@ -14,27 +18,30 @@
 *.mdb
 *.opendb
 *.VC.db
+*.vsidx
+
+# ====== Visual Studio ======
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ====== IDEs alternativos ======
 .vscode/
 .idea/
-.DS_Store
-*.vsidx
-.vs/
+
+# ====== Logs ======
 Logs/
 *.log
 *-prev.log
 
-# Ignorar carpetas de compilación de MSBuild
-obj/
-Debug/
-Release/
+# ====== Configuración del paquete de Code Coverage ======
+ProjectSettings/Packages/com.unity.testtools.codecoverage*/
 
-# Ignorar layouts de usuario de Unity/VS
+# ====== Ajustes de usuario ======
 UserSettings/Layouts/
 
-# Ignorar proyectos y soluciones generados
-*.csproj
-*.sln
-
-
-# Ignorar settings de Code Coverage de Unity Test Tools
-ProjectSettings/Packages/com.unity.testtools.codecoverage*/Settings.json
+# ====== Archivos del OS ======
+.DS_Store
+Thumbs.db
