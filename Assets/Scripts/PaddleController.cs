@@ -4,8 +4,8 @@ public class PaddleController : MonoBehaviour
 {
     public float speed = 10f; // Velocidad de movimiento
 
-
     public float bounceStrength = 5f; // Cuánto cambia la dirección
+    public float maxBounceAngle = 60f; // Máximo ángulo hacia los lados
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,20 +13,27 @@ public class PaddleController : MonoBehaviour
         {
             Rigidbody ballRb = collision.gameObject.GetComponent<Rigidbody>();
 
-            // Calcular el punto de contacto en X relativo al centro del paddle
+            // Punto de impacto
             Vector3 contactPoint = collision.GetContact(0).point;
             float offset = contactPoint.x - transform.position.x;
             float paddleWidth = transform.localScale.x / 2f;
 
-            float directionX = offset / paddleWidth; // Normalizamos -1 (izq) a 1 (der)
+            // Normalizamos el offset (-1 izquierda, 1 derecha)
+            float normalizedOffset = Mathf.Clamp(offset / paddleWidth, -1f, 1f);
 
-            // Mantener velocidad actual pero ajustar dirección
-            Vector3 newDirection = new Vector3(directionX * bounceStrength, 0f, 1f).normalized;
+            // Calcula el ángulo de rebote
+            float bounceAngle = normalizedOffset * maxBounceAngle;
+            float bounceAngleRad = bounceAngle * Mathf.Deg2Rad;
 
-            float currentSpeed = ballRb.linearVelocity.magnitude; // Usar linearVelocity en lugar de velocity
-            ballRb.linearVelocity = newDirection * currentSpeed; // Usar linearVelocity en lugar de velocity
+            // Nueva dirección basada en el ángulo
+            Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad));
+
+            // Mantener la velocidad actual
+            float currentSpeed = ballRb.linearVelocity.magnitude; // Cambiado de 'velocity' a 'linearVelocity'
+            ballRb.linearVelocity = newDirection.normalized * currentSpeed; // Cambiado de 'velocity' a 'linearVelocity'
         }
     }
+
     void Start()
     {
 
