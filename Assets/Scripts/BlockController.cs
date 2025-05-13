@@ -6,6 +6,13 @@ public class BlockController : MonoBehaviour
     [Tooltip("Número de impactos que resiste antes de destruirse")]
     public int vidas = 1;
 
+    [Header("Modo visual")]
+    public bool useCutoutMode = false;      // true = Cutout, false = Brightness
+    [Tooltip("Color base del bloque (para Brightness mode)")]
+    public Color originalColor = Color.white;
+    [Tooltip("Color de daño máximo (para Brightness mode)")]
+    public Color damagedColor = Color.gray;
+
     private int maxVidas;
     private Renderer rend;
 
@@ -13,7 +20,10 @@ public class BlockController : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         maxVidas = vidas;
-        ActualizarTransparencia();
+        // Si es modo Brightness, captura el color inicial
+        if (!useCutoutMode)
+            originalColor = rend.material.color;
+        ActualizarVisual();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -29,19 +39,26 @@ public class BlockController : MonoBehaviour
         }
         else
         {
-            ActualizarTransparencia();
+            ActualizarVisual();
         }
     }
 
-    void ActualizarTransparencia()
+    void ActualizarVisual()
     {
-        // Calcula alfa en [0,1] según porcentaje de vida restante
-        float alpha = Mathf.Clamp01((float)vidas / maxVidas);
+        float t = Mathf.Clamp01((float)vidas / maxVidas);
 
-        // Obtén el color actual (RGB) y sustituye el A
-        Color c = rend.material.color;
-        c.a = alpha;
-        rend.material.color = c;
+        if (useCutoutMode)
+        {
+            // Cutout shader: _Cutoff de 1-t
+            // Asegúrate de que el material está en Rendering Mode = Cutout
+            rend.material.SetFloat("_Cutoff", 1f - t);
+        }
+        else
+        {
+            // Brightness mode: lerp entre damagedColor y originalColor
+            Color c = Color.Lerp(damagedColor, originalColor, t);
+            rend.material.color = c;
+        }
     }
 
     void MakeBlocksAboveFall()
