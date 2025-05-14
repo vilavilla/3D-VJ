@@ -16,6 +16,12 @@ public class BlockController : MonoBehaviour
     private int maxVidas;
     private Renderer rend;
 
+    [Header("Power-Up Settings")]
+    [Tooltip("Prefabs de power-ups que puede soltar este bloque")]
+    public GameObject[] powerUpPrefabs;
+    [Range(0f, 1f), Tooltip("Probabilidad de soltar un power-up al romperse")]
+    public float spawnChance = 1.0f; // 20%
+
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -25,7 +31,14 @@ public class BlockController : MonoBehaviour
             originalColor = rend.material.color;
         ActualizarVisual();
     }
-
+    void Awake()
+    {
+        // Si el array está vacío en el Inspector, lo cargamos desde Resources
+        if (powerUpPrefabs == null || powerUpPrefabs.Length == 0)
+        {
+            powerUpPrefabs = Resources.LoadAll<GameObject>("PowerUps");
+        }
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Ball")) return;
@@ -36,6 +49,16 @@ public class BlockController : MonoBehaviour
         {
             MakeBlocksAboveFall();
             Destroy(gameObject);
+            if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
+            {
+                // Elegimos un prefab al azar
+                int idx = Random.Range(0, powerUpPrefabs.Length);
+                GameObject pu = Instantiate(
+                    powerUpPrefabs[idx],
+                    transform.position + Vector3.up * 0.5f,  // sale justo encima
+                    Quaternion.identity
+                );
+            }
         }
         else
         {
