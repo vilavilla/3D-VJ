@@ -42,7 +42,9 @@ public class PaddleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float input = Input.GetAxis("Horizontal"); // Flechas izquierda/derecha o A/D
-        transform.Translate(Vector3.right * input * speed * Time.deltaTime);
+        float input = Input.GetAxis("Horizontal"); // -1 a +1
+        Vector3 movimiento = Vector3.right * input * speed * Time.deltaTime;
+        transform.Translate(movimiento, Space.World);
     }
+
 }
