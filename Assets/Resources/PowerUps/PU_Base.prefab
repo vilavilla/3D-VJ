@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5191251189017229506}
   - component: {fileID: 9072323787697742245}
   - component: {fileID: 9055705208134074551}
+  - component: {fileID: 8375248351745327495}
   m_Layer: 0
   m_Name: PU_Base
   m_TagString: PowerUp
@@ -134,5 +135,23 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &8375248351745327495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6595890558275650199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea83781b5a663e4cb054d9e4d7f1c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallSpeed: 5
+  type: 0
+  duration: 5
+  paddleMultiplier: 1.5
+  ballPrefab: {fileID: 0}
+  extraBalls: 2
