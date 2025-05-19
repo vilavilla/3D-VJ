@@ -38,6 +38,16 @@ public class LevelManager : MonoBehaviour
         ActivarNivel(0);
     }
 
+    void Update()
+    {
+        // Cambiar de nivel manualmente con teclas numéricas (1–5)
+        if (Input.GetKeyDown(KeyCode.Alpha1)) CambiarNivelDirecto(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) CambiarNivelDirecto(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) CambiarNivelDirecto(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) CambiarNivelDirecto(3);
+        if (Input.GetKeyDown(KeyCode.Alpha5)) CambiarNivelDirecto(4);
+    }
+
     public void CompletarNivel()
     {
         if (transicionando || nivelActual >= niveles.Length - 1) return;
@@ -58,9 +68,26 @@ public class LevelManager : MonoBehaviour
 
     void ActivarNivel(int index)
     {
+        // Desactivar todos los niveles primero
+        for (int i = 0; i < niveles.Length; i++)
+        {
+            niveles[i].SetActive(false);
+        }
+
         if (index < niveles.Length)
         {
             niveles[index].SetActive(true);
+            nivelActual = index; // actualiza también el número actual
+        }
+    }
+
+    void CambiarNivelDirecto(int index)
+    {
+        if (index < niveles.Length)
+        {
+            transition.Stop(); // parar cualquier animación en curso
+            ActivarNivel(index);
         }
     }
 }
+
