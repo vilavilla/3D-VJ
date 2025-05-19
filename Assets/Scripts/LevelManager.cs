@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     public GameObject[] niveles; // Array para meter tus niveles
@@ -20,6 +20,47 @@ public class NewMonoBehaviourScript : MonoBehaviour
         for (int i = 0; i < niveles.Length; i++)
         {
             niveles[i].SetActive(i == index); // Solo activa el nivel seleccionado
+        }
+    }
+}*/
+using UnityEngine;
+using UnityEngine.Playables;
+
+public class LevelManager : MonoBehaviour
+{
+    public GameObject[] niveles;             // Array con todos los niveles
+    public PlayableDirector transition;      // Timeline con la animación
+    private int nivelActual = 0;
+    private bool transicionando = false;
+
+    void Start()
+    {
+        ActivarNivel(0);
+    }
+
+    public void CompletarNivel()
+    {
+        if (transicionando || nivelActual >= niveles.Length - 1) return;
+
+        transicionando = true;
+        transition.stopped += OnTransicionTerminada;
+        transition.Play();
+    }
+
+    void OnTransicionTerminada(PlayableDirector dir)
+    {
+        transition.stopped -= OnTransicionTerminada;
+        niveles[nivelActual].SetActive(false);
+        nivelActual++;
+        ActivarNivel(nivelActual);
+        transicionando = false;
+    }
+
+    void ActivarNivel(int index)
+    {
+        if (index < niveles.Length)
+        {
+            niveles[index].SetActive(true);
         }
     }
 }
