@@ -28,10 +28,18 @@ using UnityEngine.Playables;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject[] niveles;             // Array con todos los niveles
-    public PlayableDirector transition;      // Timeline con la animación
+    public GameObject[] niveles;             // Todos los niveles
+    public PlayableDirector transition;      // Animación Timeline
+    public GameObject rewardPrefab;          // Prefab del objeto recompensa
+    //public Transform paddle;                 // Paddle (objetivo del reward)
+
+    private Transform paddle;
     private int nivelActual = 0;
     private bool transicionando = false;
+
+    private int totalBloques = 0;
+    private int bloquesDestruidos = 0;
+    private bool recompensaAparecida = false;
 
     void Start()
     {
@@ -40,12 +48,28 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        // Cambiar de nivel manualmente con teclas numéricas (1–5)
         if (Input.GetKeyDown(KeyCode.Alpha1)) CambiarNivelDirecto(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) CambiarNivelDirecto(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) CambiarNivelDirecto(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) CambiarNivelDirecto(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) CambiarNivelDirecto(4);
+    }
+
+    public void RegistrarBloque()
+    {
+        totalBloques++;
+    }
+
+    public void BloqueDestruido()
+    {
+        bloquesDestruidos++;
+
+        if (!recompensaAparecida && bloquesDestruidos >= 0.95f * totalBloques)
+        {
+            recompensaAparecida = true;
+            GameObject reward = Instantiate(rewardPrefab, new Vector3(0, 8, 0), Quaternion.identity);
+            reward.GetComponent<Reward>().Init(paddle.position);
+        }
     }
 
     public void CompletarNivel()
@@ -68,16 +92,16 @@ public class LevelManager : MonoBehaviour
 
     void ActivarNivel(int index)
     {
-        // Desactivar todos los niveles primero
-        for (int i = 0; i < niveles.Length; i++)
-        {
-            niveles[i].SetActive(false);
-        }
+        for (int i = 0; i < niveles.Length; i++) niveles[i].SetActive(false);
 
         if (index < niveles.Length)
         {
             niveles[index].SetActive(true);
-            nivelActual = index; // actualiza también el número actual
+            nivelActual = index;
+            totalBloques = 0;
+            bloquesDestruidos = 0;
+            recompensaAparecida = false;
+            paddle = GameObject.FindGameObjectWithTag("Paddle")?.transform;
         }
     }
 
@@ -85,9 +109,10 @@ public class LevelManager : MonoBehaviour
     {
         if (index < niveles.Length)
         {
-            transition.Stop(); // parar cualquier animación en curso
+            transition.Stop();
             ActivarNivel(index);
         }
     }
 }
+
 

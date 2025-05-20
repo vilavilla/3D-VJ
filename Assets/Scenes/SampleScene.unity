@@ -1763,6 +1763,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prop_SmallStorageBox_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
+      propertyPath: m_TagString
+      value: Paddle
+      objectReference: {fileID: 0}
     - target: {fileID: 1809706334242690962, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_LocalScale.x
       value: 12
@@ -1961,6 +1965,10 @@ PrefabInstance:
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_Name
       value: Prop_BuildingBlockToy_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
+      propertyPath: m_TagString
+      value: Paddle
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5658237245835959641, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
@@ -7363,6 +7371,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 888015902}
     m_Modifications:
+    - target: {fileID: -702820298892847496, guid: 05cdd40ea92f078498549cef979671cf, type: 3}
+      propertyPath: limiteY
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 3870443402712750375, guid: 05cdd40ea92f078498549cef979671cf, type: 3}
       propertyPath: m_LocalScale.x
       value: 7
@@ -8161,7 +8173,7 @@ GameObject:
   - component: {fileID: 1163522929}
   m_Layer: 0
   m_Name: Nivel3
-  m_TagString: Untagged
+  m_TagString: Paddle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8217,6 +8229,14 @@ PrefabInstance:
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_Name
       value: Prop_Cabinet_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
+      propertyPath: m_TagString
+      value: Paddle
       objectReference: {fileID: 0}
     - target: {fileID: 2292100758248347424, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_LocalScale.x
@@ -8365,6 +8385,10 @@ PrefabInstance:
     - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_Name
       value: Prop_Chest_But (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
+      propertyPath: m_TagString
+      value: Paddle
       objectReference: {fileID: 0}
     - target: {fileID: 1922958442894244876, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_Enabled
@@ -9402,6 +9426,10 @@ PrefabInstance:
     - target: {fileID: 8573305313201663480, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_Name
       value: Prop_Towel_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8573305313201663480, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
+      propertyPath: m_TagString
+      value: Paddle
       objectReference: {fileID: 0}
     - target: {fileID: 9057213216004437826, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_LocalScale.x
@@ -11464,6 +11492,7 @@ MonoBehaviour:
   - {fileID: 20187846}
   - {fileID: 1101458052}
   transition: {fileID: 2119857362}
+  rewardPrefab: {fileID: 789035497669524897, guid: 74c06ae131fb4d047895afa4b7c80a38, type: 3}
 --- !u!4 &1857317118
 Transform:
   m_ObjectHideFlags: 0
