@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;                 
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
     [Header("UI (Menu Scene)")]
-    public Text highScoreText;
+    public TextMeshProUGUI highScoreText;  //  TextMeshProUGUI en lugar de Text
 
     void Start()
     {
