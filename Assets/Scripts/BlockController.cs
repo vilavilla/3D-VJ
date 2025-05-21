@@ -49,13 +49,18 @@ public class BlockController : MonoBehaviour
         {
             MakeBlocksAboveFall();
             Destroy(gameObject);
-            if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
+            if (powerUpPrefabs.Length > 0 && Random.value < spawnChance) //FALTA PONER TAMBIEN QUE ESTE EN LA SCENE POR SI EL BLOQUE SALE VOLANDO
             {
                 // Elegimos un prefab al azar
                 int idx = Random.Range(0, powerUpPrefabs.Length);
+                Vector3 spawnPos = new Vector3(
+                    transform.position.x,   // misma X del bloque
+                    -3.5f,                  // altura fija
+                    transform.position.z    // misma Z del bloque
+                );
                 GameObject pu = Instantiate(
                     powerUpPrefabs[idx],
-                    transform.position + Vector3.up * 0.5f,  // sale justo encima
+                    spawnPos,  // sale justo encima
                     Quaternion.identity
                 );
             }
