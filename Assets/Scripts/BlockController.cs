@@ -59,13 +59,19 @@ public class BlockController : MonoBehaviour
                     Quaternion.identity
                 );
             }
+            GivePoints();
         }
         else
         {
             ActualizarVisual();
         }
     }
-
+    void GivePoints()
+    {
+        // 1 vida  100, 2 vidas 200, 3 vidas  300
+        int points = maxVidas * 100;
+        ScoreManager.Instance.AddPoints(points);
+    }
     void ActualizarVisual()
     {
         float t = Mathf.Clamp01((float)vidas / maxVidas);

@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;  // <- Importante
 
 public class ScoreManager : MonoBehaviour
 {
@@ -8,9 +9,9 @@ public class ScoreManager : MonoBehaviour
     public int CurrentScore { get; private set; }
     public int HighScore { get; private set; }
 
-    [Header("UI (Game Scene)")]
-    public Text scoreText;
-    public Text highScoreText;
+    [Header("UI (TextMeshPro)")]
+    public TMP_Text scoreText;
+    public TMP_Text highScoreText;
 
     void Awake()
     {
@@ -20,12 +21,52 @@ public class ScoreManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             LoadHighScore();
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void Start()
     {
-        UpdateUI();
+        // En caso de que la SampleScene ya esté activa al iniciar:
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Menú principal: solo HighScore
+        if (scene.name == "MenuScene")
+        {
+            scoreText = null;
+            highScoreText = GameObject.Find("HighScoreText")
+                              .GetComponent<TMP_Text>();
+            UpdateUI();
+        }
+        // Escena de juego (“SampleScene”)
+        else if (scene.name == "SampleScene")
+        {
+            CurrentScore = 0;
+            scoreText = GameObject.Find("ScoreText")
+                        .GetComponent<TMP_Text>();
+            // Si también quieres mostrar el HighScore en juego:
+            var hsGO = GameObject.Find("HighScoreText");
+            highScoreText = hsGO != null
+                ? hsGO.GetComponent<TMP_Text>()
+                : null;
+            UpdateUI();
+        }
     }
 
     public void AddPoints(int points)
@@ -42,6 +83,7 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", HighScore);
             PlayerPrefs.Save();
         }
+        UpdateUI();
     }
 
     void LoadHighScore()
@@ -52,8 +94,8 @@ public class ScoreManager : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = "Score: " + CurrentScore;
+            scoreText.text = $"Score: {CurrentScore}";
         if (highScoreText != null)
-            highScoreText.text = "High Score: " + HighScore;
+            highScoreText.text = $"High Score: {HighScore}";
     }
 }
