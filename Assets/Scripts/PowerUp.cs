@@ -68,13 +68,27 @@ public class PowerUp : MonoBehaviour
         switch (type)
         {
             case PowerUpType.ExpandPaddle:
-                StartCoroutine(HandleScale(paddle, paddleMultiplier));
-                break;
-
+                {
+                    // Escala al 150%, pero sin pasar de 200%
+                    StartCoroutine(HandleScale(
+                        paddle.transform,
+                        1.5f,    // widthMultiplier
+                        5f,      // duration
+                        2f       // clampMultiplier: máximo 200% del ancho original
+                    ));
+                    break;
+                }
             case PowerUpType.ShrinkPaddle:
-                StartCoroutine(HandleScale(paddle, 1f / paddleMultiplier));
-                break;
-
+                {
+                    // Reduce al 50%, pero sin bajar del 75% (por ejemplo)
+                    StartCoroutine(HandleScale(
+                        paddle.transform,
+                        0.5f,    // widthMultiplier
+                        5f,      // duration
+                        0.75f    // clampMultiplier: mínimo 75% del ancho original
+                    ));
+                    break;
+                }
             case PowerUpType.PowerBallOn:
                 {
                     var ball = GameObject.FindGameObjectWithTag("Ball");
@@ -140,13 +154,37 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    IEnumerator HandleScale(GameObject paddle, float multiplier)
+    IEnumerator HandleScale(Transform paddle, float widthMultiplier, float duration, float clampMultiplier)
     {
-        Vector3 original = paddle.transform.localScale;
-        paddle.transform.localScale = original * multiplier;
+        // 1) Guardamos escala y posición originales
+        Vector3 originalScale = paddle.localScale;
+        Vector3 originalPosition = paddle.position;
+
+        // 2) Calculamos el factor de escala, con límite
+        float clampedMultiplier = widthMultiplier;
+        if (widthMultiplier > 1f)
+            clampedMultiplier = Mathf.Min(widthMultiplier, clampMultiplier); // máximo
+        else if (widthMultiplier < 1f)
+            clampedMultiplier = Mathf.Max(widthMultiplier, clampMultiplier); // mínimo
+
+        // 3) Aplicamos sólo en X
+        float finalScaleX = originalScale.x * clampedMultiplier;
+        paddle.localScale = new Vector3(finalScaleX, originalScale.y, originalScale.z);
+
+        // Nos aseguramos de que la posición no cambie (si tu pivot no está en el centro puedes necesitar ajustarlo en el modelo)
+        paddle.position = originalPosition;
+
+        // 4) Esperamos la duración
         yield return new WaitForSeconds(duration);
-        if (paddle != null) paddle.transform.localScale = original;
+
+        // 5) Revertimos a los valores originales
+        if (paddle != null)
+        {
+            paddle.localScale = originalScale;
+            paddle.position = originalPosition;
+        }
     }
+
 
     IEnumerator HandleSpeed(float delta)
     {
