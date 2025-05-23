@@ -1,50 +1,70 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PaddleController : MonoBehaviour
 {
-    public float speed = 25f; // Velocidad de movimiento
+    [Header("Movimiento")]
+    [Tooltip("Velocidad de desplazamiento en unidades/segundo")]
+    public float speed = 10f;
 
-    public float bounceStrength = 5f; // Cuánto cambia la dirección
-    public float maxBounceAngle = 60f; // Máximo ángulo hacia los lados
+    [Header("Rebote pelota")]
+    [Tooltip("Ángulo máximo de rebote hacia los lados (grados)")]
+    public float maxBounceAngle = 60f;
 
-    private void OnCollisionEnter(Collision collision)
+    private Rigidbody rb;
+    private Collider col;
+
+    void Awake()
     {
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            Rigidbody ballRb = collision.gameObject.GetComponent<Rigidbody>();
+        // Aseguramos el Rigidbody y lo configuramos
+        rb = GetComponent<Rigidbody>();
+        if (rb == null) rb = gameObject.AddComponent<Rigidbody>();
 
-            // Punto de impacto
-            Vector3 contactPoint = collision.GetContact(0).point;
-            float offset = contactPoint.x - transform.position.x;
-            float paddleWidth = transform.localScale.x / 2f;
+        rb.isKinematic = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.constraints = RigidbodyConstraints.FreezePositionY
+                       | RigidbodyConstraints.FreezePositionZ
+                       | RigidbodyConstraints.FreezeRotation;
 
-            // Normalizamos el offset (-1 izquierda, 1 derecha)
-            float normalizedOffset = Mathf.Clamp(offset / paddleWidth, -1f, 1f);
-
-            // Calcula el ángulo de rebote
-            float bounceAngle = normalizedOffset * maxBounceAngle;
-            float bounceAngleRad = bounceAngle * Mathf.Deg2Rad;
-
-            // Nueva dirección basada en el ángulo
-            Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad));
-
-            // Mantener la velocidad actual
-            float currentSpeed = ballRb.linearVelocity.magnitude; // Cambiado de 'velocity' a 'linearVelocity'
-            ballRb.linearVelocity = newDirection.normalized * currentSpeed; // Cambiado de 'velocity' a 'linearVelocity'
-        }
+        // Aseguramos el Collider (no trigger, provides contacts ON)
+        col = GetComponent<Collider>();
+        if (col == null)
+            Debug.LogError("Paddle necesita un Collider para funcionar correctamente.");
     }
 
-    void Start()
+    void FixedUpdate()
     {
-
+        // Movimiento horizontal con MovePosition para respetar colisiones
+        float h = Input.GetAxis("Horizontal"); // -1..+1
+        Vector3 target = rb.position + Vector3.right * h * speed * Time.fixedDeltaTime;
+        rb.MovePosition(target);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionEnter(Collision collision)
     {
-        float input = Input.GetAxis("Horizontal"); // -1 a +1
-        Vector3 movimiento = Vector3.right * input * speed * Time.deltaTime;
-        transform.Translate(movimiento, Space.World);
-    }
+        // Solo queremos rebotar contra objetos con tag "Ball"
+        if (!collision.gameObject.CompareTag("Ball")) return;
 
+        Rigidbody ballRb = collision.rigidbody;
+        if (ballRb == null) return;
+
+        // 1) Calculamos offset X del punto de contacto
+        Vector3 contactPt = collision.GetContact(0).point;
+        float offset = contactPt.x - transform.position.x;
+
+        // 2) Mitad del ancho real de la pala
+        float halfWidth = col.bounds.extents.x;
+
+        // 3) Normalizamos a [-1,1] y calculamos el ángulo en radianes
+        float norm = Mathf.Clamp(offset / halfWidth, -1f, 1f);
+        float bounceRad = norm * maxBounceAngle * Mathf.Deg2Rad;
+
+        // 4) Nueva dirección en X-Z
+        Vector3 newDir = new Vector3(Mathf.Sin(bounceRad), 0f, Mathf.Cos(bounceRad)).normalized;
+
+        // 5) Conservamos la velocidad de la bola usando linearVelocity
+        float speedBefore = ballRb.linearVelocity.magnitude;
+        ballRb.linearVelocity = newDir * speedBefore;
+    }
 }
