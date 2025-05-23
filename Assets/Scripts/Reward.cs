@@ -19,7 +19,9 @@ public class Reward : MonoBehaviour
     {
         if (other.CompareTag("Paddle"))
         {
-            FindObjectOfType<LevelManager>().CompletarNivel();
+            /*FindObjectOfType<LevelManager>().CompletarNivel();
+            Destroy(gameObject);*/
+            UnityEngine.Object.FindFirstObjectByType<LevelManager>()?.CompletarNivel();
             Destroy(gameObject);
         }
     }

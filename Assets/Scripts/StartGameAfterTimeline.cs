@@ -14,6 +14,7 @@ public class StartGameAfterTimeline : MonoBehaviour
 
     void OnTimelineStopped(PlayableDirector obj)
     {
-        gameController.SetActive(true); // Activa el juego cuando termine la animación
+        if (gameController != null)
+            gameController.SetActive(true); // Activa el juego cuando termine la animación
     }
 }

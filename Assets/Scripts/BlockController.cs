@@ -20,25 +20,25 @@ public class BlockController : MonoBehaviour
     [Tooltip("Prefabs de power-ups que puede soltar este bloque")]
     public GameObject[] powerUpPrefabs;
     [Range(0f, 1f), Tooltip("Probabilidad de soltar un power-up al romperse")]
-    public float spawnChance = 1.0f; // 20%
+    public float spawnChance = 1.0f;
+
+    void Awake()
+    {
+        // Carga los power-ups si no están asignados en el Inspector
+        if (powerUpPrefabs == null || powerUpPrefabs.Length == 0)
+            powerUpPrefabs = Resources.LoadAll<GameObject>("PowerUps");
+    }
 
     void Start()
     {
+        // Inicializa render y resistencia
         rend = GetComponent<Renderer>();
         maxVidas = vidas;
-        // Si es modo Brightness, captura el color inicial
         if (!useCutoutMode)
             originalColor = rend.material.color;
         ActualizarVisual();
     }
-    void Awake()
-    {
-        // Si el array está vacío en el Inspector, lo cargamos desde Resources
-        if (powerUpPrefabs == null || powerUpPrefabs.Length == 0)
-        {
-            powerUpPrefabs = Resources.LoadAll<GameObject>("PowerUps");
-        }
-    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Ball")) return;
@@ -48,22 +48,24 @@ public class BlockController : MonoBehaviour
         if (vidas <= 0)
         {
             MakeBlocksAboveFall();
+
+            // Notifica al LevelManager que un bloque ha sido destruido
+            FindObjectOfType<LevelManager>()?.BloqueDestruido();
+
             Destroy(gameObject);
-            if (powerUpPrefabs.Length > 0 && Random.value < spawnChance) //FALTA PONER TAMBIEN QUE ESTE EN LA SCENE POR SI EL BLOQUE SALE VOLANDO
+
+            // Spawn de power-up si corresponde
+            if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
-                // Elegimos un prefab al azar
                 int idx = Random.Range(0, powerUpPrefabs.Length);
                 Vector3 spawnPos = new Vector3(
-                    transform.position.x,   // misma X del bloque
-                    -3.5f,                  // altura fija
-                    transform.position.z    // misma Z del bloque
+                    transform.position.x,
+                    -3.5f,
+                    transform.position.z
                 );
-                GameObject pu = Instantiate(
-                    powerUpPrefabs[idx],
-                    spawnPos,  // sale justo encima
-                    Quaternion.identity
-                );
+                Instantiate(powerUpPrefabs[idx], spawnPos, Quaternion.identity);
             }
+
             GivePoints();
         }
         else
@@ -71,28 +73,20 @@ public class BlockController : MonoBehaviour
             ActualizarVisual();
         }
     }
+
     void GivePoints()
     {
-        // 1 vida  100, 2 vidas 200, 3 vidas  300
         int points = maxVidas * 100;
         ScoreManager.Instance.AddPoints(points);
     }
+
     void ActualizarVisual()
     {
         float t = Mathf.Clamp01((float)vidas / maxVidas);
-
         if (useCutoutMode)
-        {
-            // Cutout shader: _Cutoff de 1-t
-            // Asegúrate de que el material está en Rendering Mode = Cutout
             rend.material.SetFloat("_Cutoff", 1f - t);
-        }
         else
-        {
-            // Brightness mode: lerp entre damagedColor y originalColor
-            Color c = Color.Lerp(damagedColor, originalColor, t);
-            rend.material.color = c;
-        }
+            rend.material.color = Color.Lerp(damagedColor, originalColor, t);
     }
 
     void MakeBlocksAboveFall()
