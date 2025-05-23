@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"[Level {nivelActual + 1}] Destroyed {bloquesDestruidos} / {totalBloques}");
 
         // Al 95% aparece la recompensa
-        if (!recompensaAparecida && bloquesDestruidos >= 0.95f * totalBloques)
+        if (!recompensaAparecida && bloquesDestruidos >= 0.15f * totalBloques)
         {
             recompensaAparecida = true;
             // Aparece en (0,8,0) y se dirige al paddle:

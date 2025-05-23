@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
-    public float speed = 10f; // Velocidad de movimiento
+    public float speed = 25f; // Velocidad de movimiento
 
-    public float bounceStrength = 5f; // Cuánto cambia la dirección
-    public float maxBounceAngle = 60f; // Máximo ángulo hacia los lados
+    public float bounceStrength = 5f; // CuÃ¡nto cambia la direcciÃ³n
+    public float maxBounceAngle = 60f; // MÃ¡ximo Ã¡ngulo hacia los lados
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -21,11 +21,11 @@ public class PaddleController : MonoBehaviour
             // Normalizamos el offset (-1 izquierda, 1 derecha)
             float normalizedOffset = Mathf.Clamp(offset / paddleWidth, -1f, 1f);
 
-            // Calcula el ángulo de rebote
+            // Calcula el Ã¡ngulo de rebote
             float bounceAngle = normalizedOffset * maxBounceAngle;
             float bounceAngleRad = bounceAngle * Mathf.Deg2Rad;
 
-            // Nueva dirección basada en el ángulo
+            // Nueva direcciÃ³n basada en el Ã¡ngulo
             Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad));
 
             // Mantener la velocidad actual
