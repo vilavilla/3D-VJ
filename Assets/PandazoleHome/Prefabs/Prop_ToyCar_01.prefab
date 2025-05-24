@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2616985028287025579}
   - component: {fileID: -3857087506388149163}
   - component: {fileID: -4866458044620786879}
+  - component: {fileID: 5023634138236888712}
   m_Layer: 0
   m_Name: Prop_ToyCar_01
   m_TagString: Untagged
@@ -170,3 +171,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limiteY: -5
+--- !u!114 &5023634138236888712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2468312258021884094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82586b51566f4264b925a85da8691b67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitCenter: {x: 14.41, y: -1.51, z: -6}
+  orbitSpeed: 45
+  orbitRadius: 7
