@@ -25,12 +25,27 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (transition.state == PlayState.Playing)
+            {
+                Debug.Log("Enter detectado: saltando transición");
+                //transition.stopped -= OnTransicionTerminada;
+                transition.Stop();
+                transicionando = false;
+                Camera.main.transform.position = new Vector3(0f, 14.3f, -31.5f);
+                return;
+            }
+        }
+
         // Cambio manual de nivel con 1–5
         if (Input.GetKeyDown(KeyCode.Alpha1)) CambiarNivelDirecto(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) CambiarNivelDirecto(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) CambiarNivelDirecto(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) CambiarNivelDirecto(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) CambiarNivelDirecto(4);
+
     }
 
     /// <summary>
@@ -71,6 +86,8 @@ public class LevelManager : MonoBehaviour
         transicionando = false;
     }
 
+ 
+
     /// <summary>
     /// Desactiva todos los niveles y activa el índice solicitado.
     /// Además cuenta los bloques hijos con tag "Block" y obtiene el paddle.
@@ -99,6 +116,8 @@ public class LevelManager : MonoBehaviour
 
             paddle = GameObject.FindGameObjectWithTag("Paddle")?.transform;
         }
+
+
     }
 
 
