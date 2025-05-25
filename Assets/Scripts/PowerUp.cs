@@ -81,7 +81,7 @@ public class PowerUp : MonoBehaviour
                 {
                     var paddleCtrl = paddle.GetComponent<PaddleController>();
                     if (paddleCtrl != null)
-                        StartCoroutine(HandleExtend(paddleCtrl, duration, true));
+                        StartCoroutine(HandleExtend(paddleCtrl, duration, false));
 
                 }
                 break;

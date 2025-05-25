@@ -62,7 +62,7 @@ public class BlockController : MonoBehaviour
             if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
                 //int idx = Random.Range(0, powerUpPrefabs.Length);
-                int idx = 0; // Para pruebas, siempre el segundo prefab
+                int idx = 1; // Para pruebas, siempre el segundo prefab
                 Vector3 spawnPos = new Vector3(
                     transform.position.x,
                     -3.5f,
