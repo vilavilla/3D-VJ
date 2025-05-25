@@ -1,3 +1,4 @@
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -14,7 +15,7 @@ public class PaddleController : MonoBehaviour
 
     private Rigidbody rb;
     private Collider col;
-    
+ 
 
     [Header("Extensiones para power-up Expand/Shrink")]
     public GameObject leftExt;
@@ -85,9 +86,37 @@ public class PaddleController : MonoBehaviour
     /// <summary>
     /// Muestra u oculta las secciones extra del paddle.
     /// </summary>
+    /// <summary>
+    /// Activa progresivamente las extensiones: primero la derecha, luego la izquierda.
+    /// Al desactivar, se hace al revés: primero la izquierda, luego la derecha.
+    /// </summary>
     public void SetExtended(bool on)
     {
-        if (leftExt  != null) leftExt.SetActive(on);
-        if (rightExt != null) rightExt.SetActive(on);
+        if (on)
+        {
+            // Si todavía no está la extensión derecha, ponla
+            if (rightExt != null && !rightExt.activeSelf)
+            {
+                rightExt.SetActive(true);
+            }
+            // Si la derecha ya está y la izquierda no, pon la izquierda
+            else if (leftExt != null && !leftExt.activeSelf)
+            {
+                leftExt.SetActive(true);
+            }
+        }
+        else
+        {
+            // Al quitar, primero apaga la izquierda si está activa
+            if (leftExt != null && leftExt.activeSelf)
+            {
+                leftExt.SetActive(false);
+            }
+            // Si la izquierda ya estaba apagada, apaga la derecha
+            else if (rightExt != null && rightExt.activeSelf)
+            {
+                rightExt.SetActive(false);
+            }
+        }
     }
 }
