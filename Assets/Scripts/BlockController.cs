@@ -50,14 +50,19 @@ public class BlockController : MonoBehaviour
             MakeBlocksAboveFall();
 
             // Notifica al LevelManager que un bloque ha sido destruido
-            FindObjectOfType<LevelManager>()?.BloqueDestruido();
+            LevelManager levelManager = Object.FindFirstObjectByType<LevelManager>();
+            if (levelManager != null)
+            {
+                levelManager.BloqueDestruido();
+            }
 
             Destroy(gameObject);
 
             // Spawn de power-up si corresponde
             if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
-                int idx = Random.Range(0, powerUpPrefabs.Length);
+                //int idx = Random.Range(0, powerUpPrefabs.Length);
+                int idx = 0; // Para pruebas, siempre el segundo prefab
                 Vector3 spawnPos = new Vector3(
                     transform.position.x,
                     -3.5f,

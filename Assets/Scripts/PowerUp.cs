@@ -29,36 +29,37 @@ public class PowerUp : MonoBehaviour
 
     [Header("Expand / Shrink Paddle")]
     public float paddleMultiplier = 1.5f;
+    public float clampMaxMultiplier = 2f;
+    public float clampMinMultiplier = 0.75f;
 
     [Header("MultiBall")]
     public GameObject ballPrefab;
     public int extraBalls = 2;
 
     [Header("SpeedUp / SlowDown")]
-    public float speedDelta = 5f;
+    public float speedDelta = 2f;
 
     void Awake()
     {
-        // desactiva gravedad y física para que no atraviese el suelo
+        // Caída continua sin gravedad
         var rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = true;
 
-        // collider en trigger
+        // Trigger para detectar paddle
         var col = GetComponent<Collider>();
         col.isTrigger = true;
     }
 
     void Update()
     {
-        // cae siempre hacia -Z
+        // Movimiento hacia -Z
         transform.Translate(Vector3.back * fallSpeed * Time.deltaTime, Space.World);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Paddle")) return;
-
         ApplyEffect(other.gameObject);
         Destroy(gameObject);
     }
@@ -68,47 +69,39 @@ public class PowerUp : MonoBehaviour
         switch (type)
         {
             case PowerUpType.ExpandPaddle:
-                {
-                    // Escala al 150%, pero sin pasar de 200%
-                    StartCoroutine(HandleScale(
-                        paddle.transform,
-                        1.5f,    // widthMultiplier
-                        5f,      // duration
-                        2f       // clampMultiplier: máximo 200% del ancho original
-                    ));
-                    break;
-                }
+                StartCoroutine(HandleScale(
+                    paddle.transform,
+                    paddleMultiplier,
+                    duration,
+                    clampMaxMultiplier
+                ));
+                break;
+
             case PowerUpType.ShrinkPaddle:
-                {
-                    // Reduce al 50%, pero sin bajar del 75% (por ejemplo)
-                    StartCoroutine(HandleScale(
-                        paddle.transform,
-                        0.5f,    // widthMultiplier
-                        5f,      // duration
-                        0.75f    // clampMultiplier: mínimo 75% del ancho original
-                    ));
-                    break;
-                }
+                StartCoroutine(HandleScale(
+                    paddle.transform,
+                    1f / paddleMultiplier,
+                    duration,
+                    clampMinMultiplier
+                ));
+                break;
+
             case PowerUpType.PowerBallOn:
                 {
-                    var ball = GameObject.FindGameObjectWithTag("Ball");
-                    if (ball != null)
+                    /*var ball = GameObject.FindGameObjectWithTag("Ball");
+                    if (ball != null
+                        && ball.GetComponent<PowerBallBehaviour>() == null)
                     {
-                        // PowerBallBehaviour debe ignorar colisiones y atravesar bloques
-                       // ball.AddComponent<PowerBallBehaviour>();
-                    }
+                        ball.AddComponent<PowerBallBehaviour>();
+                    }*/
                 }
                 break;
 
             case PowerUpType.PowerBallOff:
                 {
-                    var ball = GameObject.FindGameObjectWithTag("Ball");
-                    if (ball != null)
-                    {
-                       // var pb = ball.GetComponent<PowerBallBehaviour>();
-                       // if (pb != null) Destroy(pb);
-                        // asegúrate de restaurar collider normal en PowerBallBehaviour
-                    }
+                   /* var ball = GameObject.FindGameObjectWithTag("Ball");
+                    var pb = ball?.GetComponent<PowerBallBehaviour>();
+                    if (pb != null) Destroy(pb);*/
                 }
                 break;
 
@@ -117,7 +110,7 @@ public class PowerUp : MonoBehaviour
                 {
                     Instantiate(
                         ballPrefab,
-                        paddle.transform.position + Vector3.up,
+                        paddle.transform.position + Vector3.up * 0.5f,
                         Quaternion.identity
                     );
                 }
@@ -125,23 +118,25 @@ public class PowerUp : MonoBehaviour
 
             case PowerUpType.Magnet:
                 {
-                    var ball = GameObject.FindGameObjectWithTag("Ball");
-                    if (ball != null)
+                    /*var ball = GameObject.FindGameObjectWithTag("Ball");
+                    if (ball != null
+                        && ball.GetComponent<MagnetBall>() == null)
                     {
-                       // ball.AddComponent<MagnetBall>();
-                    }
+                        ball.AddComponent<MagnetBall>();
+                    }*/
                 }
                 break;
 
             case PowerUpType.NextLevel:
-                // Carga la siguiente escena en el Build Settings
-                int next = SceneManager.GetActiveScene().buildIndex + 1;
-                if (next < SceneManager.sceneCountInBuildSettings)
-                    SceneManager.LoadScene(next);
+                {
+                    int next = SceneManager.GetActiveScene().buildIndex + 1;
+                    if (next < SceneManager.sceneCountInBuildSettings)
+                        SceneManager.LoadScene(next);
+                }
                 break;
 
             case PowerUpType.SpeedUp:
-                StartCoroutine(HandleSpeed(speedDelta));
+                StartCoroutine(HandleSpeed(+speedDelta));
                 break;
 
             case PowerUpType.SlowDown:
@@ -149,46 +144,37 @@ public class PowerUp : MonoBehaviour
                 break;
 
             case PowerUpType.ExtraLife:
-                //GameManager.Instance.AddLife(1);
+               // GameManager.Instance.AddLife(1);
                 break;
         }
     }
 
     IEnumerator HandleScale(Transform paddle, float widthMultiplier, float duration, float clampMultiplier)
     {
-        // 1) Guardamos escala y posición originales
         Vector3 originalScale = paddle.localScale;
-        Vector3 originalPosition = paddle.position;
+        Vector3 originalPos = paddle.position;
 
-        // 2) Calculamos el factor de escala, con límite
-        float clampedMultiplier = widthMultiplier;
-        if (widthMultiplier > 1f)
-            clampedMultiplier = Mathf.Min(widthMultiplier, clampMultiplier); // máximo
-        else if (widthMultiplier < 1f)
-            clampedMultiplier = Mathf.Max(widthMultiplier, clampMultiplier); // mínimo
+        // Clamp multiplier
+        float m = widthMultiplier > 1f
+            ? Mathf.Min(widthMultiplier, clampMultiplier)
+            : Mathf.Max(widthMultiplier, clampMultiplier);
 
-        // 3) Aplicamos sólo en X
-        float finalScaleX = originalScale.x * clampedMultiplier;
-        paddle.localScale = new Vector3(finalScaleX, originalScale.y, originalScale.z);
+        float finalX = originalScale.x * m;
+        paddle.localScale = new Vector3(finalX, originalScale.y, originalScale.z);
+        paddle.position = originalPos;
 
-        // Nos aseguramos de que la posición no cambie (si tu pivot no está en el centro puedes necesitar ajustarlo en el modelo)
-        paddle.position = originalPosition;
-
-        // 4) Esperamos la duración
         yield return new WaitForSeconds(duration);
 
-        // 5) Revertimos a los valores originales
+        // Revertir
         if (paddle != null)
         {
             paddle.localScale = originalScale;
-            paddle.position = originalPosition;
+            paddle.position = originalPos;
         }
     }
 
-
     IEnumerator HandleSpeed(float delta)
     {
-        // Ajusta la velocidad de TODAS las bolas
         var balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (var b in balls)
         {
@@ -198,7 +184,7 @@ public class PowerUp : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-        // Revertir cambio
+        // Revertir
         balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (var b in balls)
         {
