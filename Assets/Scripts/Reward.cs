@@ -4,6 +4,7 @@ public class Reward : MonoBehaviour
 {
     private Vector3 destino;
     private float speed = 3f;
+    private bool nivelCompletado = false;
 
     public void Init(Vector3 objetivo)
     {
@@ -12,16 +13,15 @@ public class Reward : MonoBehaviour
 
     void Update()
     {
+        // Mueve la recompensa hacia el paddle
         transform.position = Vector3.MoveTowards(transform.position, destino, speed * Time.deltaTime);
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Paddle"))
+        // Cuando casi alcanza el destino, completa nivel sólo una vez
+        if (!nivelCompletado && Vector3.Distance(transform.position, destino) < 0.1f)
         {
-            /*FindObjectOfType<LevelManager>().CompletarNivel();
-            Destroy(gameObject);*/
-            UnityEngine.Object.FindFirstObjectByType<LevelManager>()?.CompletarNivel();
+            nivelCompletado = true;
+            if (LevelManager.Instance != null)
+                LevelManager.Instance.CompletarNivel();
             Destroy(gameObject);
         }
     }

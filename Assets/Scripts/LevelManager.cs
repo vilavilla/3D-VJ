@@ -1,12 +1,18 @@
-// LevelManager.cs
 using UnityEngine;
 using UnityEngine.Playables;
 
 public class LevelManager : MonoBehaviour
 {
+
+    public static LevelManager Instance { get; private set; }
+
+
     [Header("Configuracion de niveles y transicion")]
     public GameObject[] niveles;
     public PlayableDirector transition;
+
+    [Header("Referencia al Preview Controller")]
+    public StartGameAfterTimeline previewController;  // Asignar en el Inspector
 
     [Header("Recompensa")]
     public GameObject rewardPrefab;
@@ -57,18 +63,57 @@ public class LevelManager : MonoBehaviour
     {
         transition.stopped -= OnTransicionTerminada;
 
-        niveles[nivelActual].SetActive(false);
-        nivelActual++;
-        ActivarNivel(nivelActual);
+        // 1) Desactiva el nivel viejo (si existe)
+        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+            niveles[nivelActual].SetActive(false);
 
-        // relanza preview correctamente
-        var preview = FindObjectOfType<StartGameAfterTimeline>();
-        if (preview != null)
-            preview.PlayPreview();
+        // 2) Avanza el índice
+        nivelActual++;
+
+        // 3) Activa el nivel nuevo (si existe)
+        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+            niveles[nivelActual].SetActive(true);
+
+        // 4) Refresca datos internos
+        ActivarNivel(nivelActual, skipActivation: true);
+
+        // 5) Relanza el preview
+        if (previewController != null)
+            previewController.PlayPreview();
         else
-            Debug.LogWarning("No se encontro StartGameAfterTimeline en escena.");
+            Debug.LogWarning("LevelManager: previewController no asignado en el Inspector");
 
         transicionando = false;
+    }
+
+    // Y modificamos ActivarNivel para que no vuelva a tocar el SetActive
+    // si hemos hecho ya la activación manual arriba.
+    void ActivarNivel(int index, bool skipActivation = false)
+    {
+        // Solo resetear datos, no tocar la jerarquía si skipActivation==true
+        if (!skipActivation)
+            foreach (var go in niveles)
+                if (go != null) go.SetActive(false);
+
+        if (index < 0 || index >= niveles.Length || niveles[index] == null)
+            return;
+
+        if (!skipActivation)
+            niveles[index].SetActive(true);
+
+        nivelActual = index;
+
+        // Cuenta los bloques, resetea flags, busca paddle...
+        totalBloques = 0;
+        foreach (var t in niveles[index].GetComponentsInChildren<Transform>(true))
+            if (t.CompareTag("Block"))
+                totalBloques++;
+
+        bloquesDestruidos = 0;
+        recompensaAparecida = false;
+
+        var pad = GameObject.FindGameObjectWithTag("Paddle");
+        paddle = pad ? pad.transform : null;
     }
 
 
@@ -102,4 +147,11 @@ public class LevelManager : MonoBehaviour
             ActivarNivel(index);
         }
     }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else Instance = this;
+    }
+
 }

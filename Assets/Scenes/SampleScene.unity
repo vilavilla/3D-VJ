@@ -22266,6 +22266,7 @@ MonoBehaviour:
   - {fileID: 20187846}
   - {fileID: 1101458052}
   transition: {fileID: 2119857362}
+  previewController: {fileID: 970359023}
   rewardPrefab: {fileID: 789035497669524897, guid: 74c06ae131fb4d047895afa4b7c80a38, type: 3}
 --- !u!4 &1857317118
 Transform:
