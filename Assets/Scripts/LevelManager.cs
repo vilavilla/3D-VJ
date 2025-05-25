@@ -53,14 +53,21 @@ public class LevelManager : MonoBehaviour
 
     public void CompletarNivel()
     {
-        if (transicionando || nivelActual >= niveles.Length - 1) return;
+        Debug.Log($"[LevelManager] CompletarNivel() llamado (nivelActual={nivelActual})");
+        if (transicionando || nivelActual >= niveles.Length - 1)
+        {
+            Debug.Log("[LevelManager] No entra a transición (ya en transición o último nivel).");
+            return;
+        }
         transicionando = true;
         transition.stopped += OnTransicionTerminada;
+        Debug.Log("[LevelManager] transition.Play() lanzado.");
         transition.Play();
     }
 
     void OnTransicionTerminada(PlayableDirector dir)
     {
+        Debug.Log("[LevelManager] OnTransicionTerminada() disparado.");
         transition.stopped -= OnTransicionTerminada;
 
         // 1) Desactiva el nivel viejo (si existe)
@@ -116,29 +123,6 @@ public class LevelManager : MonoBehaviour
         paddle = pad ? pad.transform : null;
     }
 
-
-    void ActivarNivel(int index)
-    {
-        foreach (var go in niveles) go.SetActive(false);
-
-        if (index < niveles.Length)
-        {
-            niveles[index].SetActive(true);
-            nivelActual = index;
-
-            totalBloques = 0;
-            foreach (var t in niveles[index].GetComponentsInChildren<Transform>(true))
-                if (t.CompareTag("Block"))
-                    totalBloques++;
-
-            bloquesDestruidos = 0;
-            recompensaAparecida = false;
-
-            var pad = GameObject.FindGameObjectWithTag("Paddle");
-            paddle = pad ? pad.transform : null;
-        }
-    }
-
     void CambiarNivelDirecto(int index)
     {
         if (index < niveles.Length)
@@ -153,5 +137,19 @@ public class LevelManager : MonoBehaviour
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
     }
+    /* 
+    /// <summary>Desactiva el nivel que está activo ahora mismo.</summary>
+    public void OcultarNivelActual()
+    {
+        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+            niveles[nivelActual].SetActive(false);
+    }
+
+    /// <summary>Vuelve a activar el nivel que está activo ahora mismo.</summary>
+    public void MostrarNivelActual()
+    {
+        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+            niveles[nivelActual].SetActive(true);
+    }*/
 
 }
