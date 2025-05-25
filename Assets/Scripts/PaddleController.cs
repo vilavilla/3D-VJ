@@ -14,6 +14,11 @@ public class PaddleController : MonoBehaviour
 
     private Rigidbody rb;
     private Collider col;
+    
+
+    [Header("Extensiones para power-up Expand/Shrink")]
+    public GameObject leftExt;
+    public GameObject rightExt;
 
     void Awake()
     {
@@ -33,6 +38,21 @@ public class PaddleController : MonoBehaviour
         col = GetComponent<Collider>();
         if (col == null)
             Debug.LogError("Paddle necesita un Collider para funcionar correctamente.");
+
+        // — AUTO-ASIGNACIÓN de extensiones si no están puestas en el Inspector —
+        if (leftExt == null)
+        {
+            var t = transform.Find("LeftExt");
+            if (t != null) leftExt = t.gameObject;
+        }
+        if (rightExt == null)
+        {
+            var t = transform.Find("RightExt");
+            if (t != null) rightExt = t.gameObject;
+        }
+
+        // Asegúrate de que empiecen ocultas
+        SetExtended(false);
     }
 
     void FixedUpdate()
@@ -60,5 +80,14 @@ public class PaddleController : MonoBehaviour
         Vector3 newDir = new Vector3(Mathf.Sin(bounceRad), 0f, Mathf.Cos(bounceRad)).normalized;
         float speedBefore = ballRb.linearVelocity.magnitude;
         ballRb.linearVelocity = newDir * speedBefore;
+    }
+
+    /// <summary>
+    /// Muestra u oculta las secciones extra del paddle.
+    /// </summary>
+    public void SetExtended(bool on)
+    {
+        if (leftExt  != null) leftExt.SetActive(on);
+        if (rightExt != null) rightExt.SetActive(on);
     }
 }

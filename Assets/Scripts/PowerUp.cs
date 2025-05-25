@@ -25,7 +25,7 @@ public class PowerUp : MonoBehaviour
 
     [Header("Configuración común")]
     public PowerUpType type;
-    public float duration = 5f;
+    public float duration = 1f;
 
     [Header("Expand / Shrink Paddle")]
     public float paddleMultiplier = 1.5f;
@@ -69,21 +69,21 @@ public class PowerUp : MonoBehaviour
         switch (type)
         {
             case PowerUpType.ExpandPaddle:
-                StartCoroutine(HandleScale(
-                    paddle.transform,
-                    paddleMultiplier,
-                    duration,
-                    clampMaxMultiplier
-                ));
+                {
+                    var paddleCtrl = paddle.GetComponent<PaddleController>();
+                    if (paddleCtrl != null)
+                        StartCoroutine(HandleExtend(paddleCtrl, duration, true));
+
+                }
                 break;
 
             case PowerUpType.ShrinkPaddle:
-                StartCoroutine(HandleScale(
-                    paddle.transform,
-                    1f / paddleMultiplier,
-                    duration,
-                    clampMinMultiplier
-                ));
+                {
+                    var paddleCtrl = paddle.GetComponent<PaddleController>();
+                    if (paddleCtrl != null)
+                        StartCoroutine(HandleExtend(paddleCtrl, duration, true));
+
+                }
                 break;
 
             case PowerUpType.PowerBallOn:
@@ -149,28 +149,12 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    IEnumerator HandleScale(Transform paddle, float widthMultiplier, float duration, float clampMultiplier)
+    IEnumerator HandleExtend(PaddleController pc, float duration, bool expand)
     {
-        Vector3 originalScale = paddle.localScale;
-        Vector3 originalPos = paddle.position;
-
-        // Clamp multiplier
-        float m = widthMultiplier > 1f
-            ? Mathf.Min(widthMultiplier, clampMultiplier)
-            : Mathf.Max(widthMultiplier, clampMultiplier);
-
-        float finalX = originalScale.x * m;
-        paddle.localScale = new Vector3(finalX, originalScale.y, originalScale.z);
-        paddle.position = originalPos;
-
+        pc.SetExtended(expand);
+        if (!expand) yield break;
         yield return new WaitForSeconds(duration);
-
-        // Revertir
-        if (paddle != null)
-        {
-            paddle.localScale = originalScale;
-            paddle.position = originalPos;
-        }
+        pc.SetExtended(false);
     }
 
     IEnumerator HandleSpeed(float delta)
