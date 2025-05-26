@@ -6,6 +6,10 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance { get; private set; }
 
+    [Header("Bola")]
+    [Tooltip("Arrastra aquí el Transform de la pelota")]
+    public Transform ballTransform;
+
 
     [Header("Configuracion de niveles y transicion")]
     public GameObject[] niveles;
@@ -43,11 +47,11 @@ public class LevelManager : MonoBehaviour
     public void BloqueDestruido()
     {
         bloquesDestruidos++;
-        if (!recompensaAparecida && bloquesDestruidos >= 0.05f * totalBloques)
+        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * totalBloques)
         {
             recompensaAparecida = true;
-            var reward = Instantiate(rewardPrefab, new Vector3(0, 8, 0), Quaternion.identity);
-            reward.GetComponent<Reward>().Init(paddle.position);
+            Vector3 spawnPos = ballTransform.position;
+            Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
         }
     }
 

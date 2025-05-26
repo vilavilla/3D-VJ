@@ -111,4 +111,15 @@ public class BlockController : MonoBehaviour
             }
         }
     }
+    /*void OnHit()
+    {
+        // 1) Guarda la posición de este bloque
+        Vector3 miPos = transform.position;
+
+        // 2) Notifica al LevelManager pasándole esa posición
+        LevelManager.Instance.BloqueDestruido(miPos);
+
+        // 3) Destruye el bloque
+        Destroy(gameObject);
+    }*/
 }

@@ -23681,6 +23681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4363fc378bbcd4b89a3f0b3d43c78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballTransform: {fileID: 2283966705516315827, guid: 4e6141510ea1f874c8f1819543f53b62, type: 3}
   niveles:
   - {fileID: 888015901}
   - {fileID: 721621111}
