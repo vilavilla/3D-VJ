@@ -57,7 +57,7 @@ public class BlockController : MonoBehaviour
             // 3) El resto (power-ups, puntos) igual que antes…
             if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
-                int idx = 1; // o Random.Range(…
+                int idx = 2; // o Random.Range(…
                 Vector3 spawnPos = new Vector3(
                     transform.position.x, -3.5f, transform.position.z
                 );
@@ -103,6 +103,37 @@ public class BlockController : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Destruye este bloque como si lo hubiera golpeado la PowerBall.
+    /// </summary>
+    public void DestroyByPowerBall()
+    {
+        // 1) Haz caer los bloques de arriba
+        MakeBlocksAboveFall();
+
+        // 2) Notifica al LevelManager
+        LevelManager.Instance.BloqueDestruido(transform.position);
+
+        // 3) Spawnea power-up con la misma lógica
+        if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
+        {
+            int idx = Random.Range(0, powerUpPrefabs.Length);
+            Vector3 spawnPos = new Vector3(
+                transform.position.x,
+                -3.5f,
+                transform.position.z
+            );
+            Instantiate(powerUpPrefabs[idx], spawnPos, Quaternion.identity);
+        }
+
+        // 4) Suma puntos
+        GivePoints();
+
+        // 5) Destrucción final
+        Destroy(gameObject);
+    }
+
     /*void OnHit()
     {
         // 1) Guarda la posición de este bloque

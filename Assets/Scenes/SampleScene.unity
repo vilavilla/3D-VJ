@@ -2934,6 +2934,10 @@ PrefabInstance:
       value: LeftExt
       objectReference: {fileID: 0}
     - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_TagString
       value: Paddle
       objectReference: {fileID: 0}
@@ -9420,6 +9424,10 @@ PrefabInstance:
       value: RightExt
       objectReference: {fileID: 0}
     - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_TagString
       value: Paddle
       objectReference: {fileID: 0}
@@ -10979,7 +10987,7 @@ GameObject:
   - component: {fileID: 725068832}
   m_Layer: 0
   m_Name: Wall Front (godmode)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16416,7 +16424,7 @@ GameObject:
   - component: {fileID: 806912946}
   m_Layer: 0
   m_Name: Wall Rigth
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -18360,6 +18368,10 @@ PrefabInstance:
       value: RightExt
       objectReference: {fileID: 0}
     - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616459466901913922, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_TagString
       value: Paddle
       objectReference: {fileID: 0}
@@ -18887,6 +18899,10 @@ PrefabInstance:
     - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_Name
       value: LeftExt
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321400763242450216, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_TagString
@@ -21064,7 +21080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_TagString
@@ -22213,7 +22229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_TagString
@@ -23640,7 +23656,7 @@ GameObject:
   - component: {fileID: 1734119000}
   m_Layer: 0
   m_Name: Wall Back
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24196,7 +24212,7 @@ GameObject:
   - component: {fileID: 1865209292}
   m_Layer: 0
   m_Name: Wall Left
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -24470,7 +24486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_TagString
@@ -25553,7 +25569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_TagString

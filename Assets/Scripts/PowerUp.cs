@@ -59,7 +59,10 @@ public class PowerUp : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"PowerUp of type {type} collided with {other.name} (tag={other.tag})");
         if (!other.CompareTag("Paddle")) return;
+
+        Debug.Log("Matched Paddle, applying effect");
         ApplyEffect(other.gameObject);
         Destroy(gameObject);
     }
@@ -87,21 +90,26 @@ public class PowerUp : MonoBehaviour
                 break;
 
             case PowerUpType.PowerBallOn:
+                Debug.Log("PowerUpType.PowerBallOn branch");
+                var ballOn = GameObject.FindGameObjectWithTag("Ball")?.GetComponent<Ball>();
+                if (ballOn == null)
+                    Debug.LogWarning("No Ball with Ball component found!");
+                else
                 {
-                    /*var ball = GameObject.FindGameObjectWithTag("Ball");
-                    if (ball != null
-                        && ball.GetComponent<PowerBallBehaviour>() == null)
-                    {
-                        ball.AddComponent<PowerBallBehaviour>();
-                    }*/
+                    Debug.Log("Calling ActivatePowerBall");
+                    ballOn.ActivatePowerBall(duration);
                 }
                 break;
 
             case PowerUpType.PowerBallOff:
+                Debug.Log("PowerUpType.PowerBallOff branch");
+                var ballOff = GameObject.FindGameObjectWithTag("Ball")?.GetComponent<Ball>();
+                if (ballOff == null)
+                    Debug.LogWarning("No Ball with Ball component found for OFF!");
+                else
                 {
-                   /* var ball = GameObject.FindGameObjectWithTag("Ball");
-                    var pb = ball?.GetComponent<PowerBallBehaviour>();
-                    if (pb != null) Destroy(pb);*/
+                    Debug.Log("Calling DeactivatePowerBall");
+                    ballOff.DeactivatePowerBall();
                 }
                 break;
 
