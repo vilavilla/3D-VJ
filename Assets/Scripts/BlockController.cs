@@ -44,33 +44,25 @@ public class BlockController : MonoBehaviour
         if (!collision.gameObject.CompareTag("Ball")) return;
 
         vidas--;
-
         if (vidas <= 0)
         {
             MakeBlocksAboveFall();
 
-            // Notifica al LevelManager que un bloque ha sido destruido
-            LevelManager levelManager = Object.FindFirstObjectByType<LevelManager>();
-            if (levelManager != null)
-            {
-                levelManager.BloqueDestruido();
-            }
+            // 1) Notifica al LevelManager la posición de este bloque
+            LevelManager.Instance.BloqueDestruido(transform.position);
 
+            // 2) Destruye el bloque
             Destroy(gameObject);
 
-            // Spawn de power-up si corresponde
+            // 3) El resto (power-ups, puntos) igual que antes…
             if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
-                //int idx = Random.Range(0, powerUpPrefabs.Length);
-                int idx = 1; // Para pruebas, siempre el segundo prefab
+                int idx = 1; // o Random.Range(…
                 Vector3 spawnPos = new Vector3(
-                    transform.position.x,
-                    -3.5f,
-                    transform.position.z
+                    transform.position.x, -3.5f, transform.position.z
                 );
                 Instantiate(powerUpPrefabs[idx], spawnPos, Quaternion.identity);
             }
-
             GivePoints();
         }
         else
@@ -114,10 +106,11 @@ public class BlockController : MonoBehaviour
     /*void OnHit()
     {
         // 1) Guarda la posición de este bloque
-        Vector3 miPos = transform.position;
+        //Vector3 miPos = transform.position;
 
         // 2) Notifica al LevelManager pasándole esa posición
-        LevelManager.Instance.BloqueDestruido(miPos);
+        LevelManager.Instance.BloqueDestruido(transform.position);
+
 
         // 3) Destruye el bloque
         Destroy(gameObject);

@@ -3,20 +3,14 @@ using UnityEngine.Playables;
 
 public class LevelManager : MonoBehaviour
 {
-
     public static LevelManager Instance { get; private set; }
 
-    [Header("Bola")]
-    [Tooltip("Arrastra aquí el Transform de la pelota")]
-    public Transform ballTransform;
-
-
-    [Header("Configuracion de niveles y transicion")]
+    [Header("Configuración de niveles y transición")]
     public GameObject[] niveles;
     public PlayableDirector transition;
 
     [Header("Referencia al Preview Controller")]
-    public StartGameAfterTimeline previewController;  // Asignar en el Inspector
+    public StartGameAfterTimeline previewController;
 
     [Header("Recompensa")]
     public GameObject rewardPrefab;
@@ -28,6 +22,12 @@ public class LevelManager : MonoBehaviour
     int bloquesDestruidos = 0;
     bool recompensaAparecida = false;
     Transform paddle;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else Instance = this;
+    }
 
     void Start()
     {
@@ -44,13 +44,18 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5)) CambiarNivelDirecto(4);
     }
 
-    public void BloqueDestruido()
+    /// <summary>
+    /// Debes llamar a este método desde tu script de bloque,
+    /// pasándole la posición del bloque destruido.
+    /// </summary>
+    public void BloqueDestruido(Vector3 bloquePos)
     {
         bloquesDestruidos++;
+        // Ajusta el porcentaje según lo necesites (0.01f = 1%)
         if (!recompensaAparecida && bloquesDestruidos >= 0.01f * totalBloques)
         {
             recompensaAparecida = true;
-            Vector3 spawnPos = ballTransform.position;
+            Vector3 spawnPos = new Vector3(bloquePos.x, bloquePos.y + 3f, bloquePos.z);
             Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
         }
     }
@@ -58,50 +63,33 @@ public class LevelManager : MonoBehaviour
     public void CompletarNivel()
     {
         Debug.Log($"[LevelManager] CompletarNivel() llamado (nivelActual={nivelActual})");
-        if (transicionando || nivelActual >= niveles.Length - 1)
-        {
-            Debug.Log("[LevelManager] No entra a transición (ya en transición o último nivel).");
-            return;
-        }
+        if (transicionando || nivelActual >= niveles.Length - 1) return;
+
         transicionando = true;
         transition.stopped += OnTransicionTerminada;
-        Debug.Log("[LevelManager] transition.Play() lanzado.");
         transition.Play();
     }
 
     void OnTransicionTerminada(PlayableDirector dir)
     {
-        Debug.Log("[LevelManager] OnTransicionTerminada() disparado.");
         transition.stopped -= OnTransicionTerminada;
 
-        // 1) Desactiva el nivel viejo (si existe)
-        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+        if (nivelActual >= 0 && nivelActual < niveles.Length)
             niveles[nivelActual].SetActive(false);
 
-        // 2) Avanza el índice
         nivelActual++;
 
-        // 3) Activa el nivel nuevo (si existe)
-        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
+        if (nivelActual >= 0 && nivelActual < niveles.Length)
             niveles[nivelActual].SetActive(true);
 
-        // 4) Refresca datos internos
         ActivarNivel(nivelActual, skipActivation: true);
 
-        // 5) Relanza el preview
-        if (previewController != null)
-            previewController.PlayPreview();
-        else
-            Debug.LogWarning("LevelManager: previewController no asignado en el Inspector");
-
+        previewController?.PlayPreview();
         transicionando = false;
     }
 
-    // Y modificamos ActivarNivel para que no vuelva a tocar el SetActive
-    // si hemos hecho ya la activación manual arriba.
     void ActivarNivel(int index, bool skipActivation = false)
     {
-        // Solo resetear datos, no tocar la jerarquía si skipActivation==true
         if (!skipActivation)
             foreach (var go in niveles)
                 if (go != null) go.SetActive(false);
@@ -114,7 +102,6 @@ public class LevelManager : MonoBehaviour
 
         nivelActual = index;
 
-        // Cuenta los bloques, resetea flags, busca paddle...
         totalBloques = 0;
         foreach (var t in niveles[index].GetComponentsInChildren<Transform>(true))
             if (t.CompareTag("Block"))
@@ -127,7 +114,7 @@ public class LevelManager : MonoBehaviour
         paddle = pad ? pad.transform : null;
     }
 
-    void CambiarNivelDirecto(int index)
+    public void CambiarNivelDirecto(int index)
     {
         if (index < niveles.Length)
         {
@@ -135,25 +122,4 @@ public class LevelManager : MonoBehaviour
             ActivarNivel(index);
         }
     }
-
-    void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
-    }
-    /* 
-    /// <summary>Desactiva el nivel que está activo ahora mismo.</summary>
-    public void OcultarNivelActual()
-    {
-        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
-            niveles[nivelActual].SetActive(false);
-    }
-
-    /// <summary>Vuelve a activar el nivel que está activo ahora mismo.</summary>
-    public void MostrarNivelActual()
-    {
-        if (nivelActual >= 0 && nivelActual < niveles.Length && niveles[nivelActual] != null)
-            niveles[nivelActual].SetActive(true);
-    }*/
-
 }
