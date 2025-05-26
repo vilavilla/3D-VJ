@@ -72,7 +72,7 @@ public class Ball : MonoBehaviour
             // rebote normal: no hacemos nada, BlockController lo maneja
         }
 
-        if (col.gameObject.CompareTag("Paddle") || col.gameObject.CompareTag("Wall"))
+        if (col.gameObject.CompareTag("Paddle"))
         {
             // rebote en paddle
             Vector3 contact = col.GetContact(0).point;
@@ -102,7 +102,7 @@ public class Ball : MonoBehaviour
         Debug.Log($"ActivatePowerBall called. Duration: {duration}");
         if (isPowerBall) return;
         isPowerBall = true;
-        powerBallDuration = duration;   
+        powerBallDuration = duration;
         powerBallTimer = duration;
         if (ballCollider != null)
             ballCollider.isTrigger = true;
