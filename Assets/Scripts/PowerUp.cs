@@ -25,7 +25,7 @@ public class PowerUp : MonoBehaviour
 
     [Header("Configuración común")]
     public PowerUpType type;
-    public float duration = 1f;
+    public float duration = 5.0f;
 
     [Header("Expand / Shrink Paddle")]
     public float paddleMultiplier = 1.5f;
@@ -89,7 +89,7 @@ public class PowerUp : MonoBehaviour
                 }
                 break;
 
-            case PowerUpType.PowerBallOn:
+          case PowerUpType.PowerBallOn:
                 Debug.Log("PowerUpType.PowerBallOn branch");
                 var ballOn = GameObject.FindGameObjectWithTag("Ball")?.GetComponent<Ball>();
                 if (ballOn == null)

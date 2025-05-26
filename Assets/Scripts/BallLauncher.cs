@@ -21,7 +21,6 @@ public class Ball : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        // asegura que tenemos el collider, incluso si está en un child
         ballCollider = GetComponent<Collider>() ?? GetComponentInChildren<Collider>();
         if (ballCollider == null)
             Debug.LogError("Ball necesita un Collider.");
@@ -30,26 +29,34 @@ public class Ball : MonoBehaviour
     void Start()
     {
         currentSpeed = baseSpeed;
-        // lanzamiento inicial
+        // lanzamiento inicial hacia adelante
         Vector3 dir = new Vector3(Random.Range(-0.5f, 0.5f), 0f, 1f).normalized;
         rb.linearVelocity = dir * currentSpeed;
     }
 
     void Update()
     {
-        // velocidad creciente
+        // 1) velocidad progresiva
         timeElapsed += Time.deltaTime;
         currentSpeed = baseSpeed + speedIncreaseRate * timeElapsed;
 
-        // cuenta atrás PowerBall
+        // 2) PowerBall timer
         if (isPowerBall)
         {
             powerBallTimer -= Time.deltaTime;
+
+            //  fuerza que el collider esté siempre como trigger mientras dura PowerBall
+            if (ballCollider != null && !ballCollider.isTrigger)
+            {
+                Debug.Log(" Reforzando isTrigger = true");
+                ballCollider.isTrigger = true;
+            }
+
             if (powerBallTimer <= 0f)
                 DeactivatePowerBall();
         }
 
-        // asegurar componente Z mínimo
+        // 3) asegurar componente Z mínimo
         Vector3 vel = rb.linearVelocity;
         float zComp = Mathf.Abs(vel.normalized.z);
         if (zComp < minForwardComponent)
@@ -67,39 +74,81 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (!isPowerBall && col.gameObject.CompareTag("Block"))
+        if (isPowerBall)
         {
-            // rebote normal: no hacemos nada, BlockController lo maneja
+            Debug.Log($" Ignorando colisión con {col.gameObject.name} porque está activo PowerBall.");
+            return; //Previene llamadas indebidas que puedan causar reset
         }
 
+        Debug.Log($" Colisión con {col.gameObject.name}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
+
+        // Rebote normal contra la paleta
         if (col.gameObject.CompareTag("Paddle"))
-        {
-            // rebote en paddle
-            Vector3 contact = col.GetContact(0).point;
-            float halfW = ballCollider.bounds.extents.x;
-            float offset = contact.x - transform.position.x;
-            float norm = Mathf.Clamp(offset / halfW, -1f, 1f);
-            float angleRad = norm * 60f * Mathf.Deg2Rad;
-            Vector3 dir = new Vector3(Mathf.Sin(angleRad), 0f, Mathf.Cos(angleRad));
-            rb.linearVelocity = dir.normalized * currentSpeed;
-        }
+            HandlePaddleBounce(col);
     }
+
 
     void OnTriggerEnter(Collider other)
     {
-        if (isPowerBall && other.CompareTag("Block"))
+        Debug.Log($" Contacto con {other.tag}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
+
+        if (!isPowerBall) return;
+
+        switch (other.tag)
         {
-            Debug.Log($"PowerBall triggered block: {other.name}");
-            var bc = other.GetComponent<BlockController>();
-            if (bc != null)
-                bc.DestroyByPowerBall();
+            // 1) Blocks: destruye y atraviesa
+            case "Block":
+                var bc = other.GetComponent<BlockController>();
+                if (bc != null) bc.DestroyByPowerBall();
+                break;
+
+            // 2) Paddle: rebote angular personalizado
+            case "Paddle":
+                HandlePaddleTriggerBounce(other);
+                break;
+
+            // 3) Walls: cualquiera de las 4 etiquetas "Wall" (izq, der, frente, atrás)
+            case "Wall":
+                // Calculamos la normal entre el punto más cercano de la pared y la bola
+                Vector3 closest = other.ClosestPoint(transform.position);
+                Vector3 normal = (transform.position - closest).normalized;
+                rb.linearVelocity = Vector3.Reflect(rb.linearVelocity, normal).normalized * currentSpeed;
+                break;
+
+            // 4) Suelo/destrucción no queremos rebotar: atraviesa sin acción
+            default:
+                // otros tags: nada
+                break;
         }
+    }
+
+    void HandlePaddleBounce(Collision col)
+    {
+        Vector3 contact = col.GetContact(0).point;
+        BounceFromPoint(contact);
+    }
+
+    void HandlePaddleTriggerBounce(Collider paddleCol)
+    {
+        // aproximamos punto de contacto en el plano Z del paddle
+        Vector3 contact = new Vector3(transform.position.x, 0f, paddleCol.transform.position.z);
+        BounceFromPoint(contact);
+    }
+
+    void BounceFromPoint(Vector3 contactPt)
+    {
+        float halfW = ballCollider.bounds.extents.x;
+        float offset = contactPt.x - transform.position.x;
+        float norm = Mathf.Clamp(offset / halfW, -1f, 1f);
+        float angleRad = norm * 60f * Mathf.Deg2Rad;
+
+        Vector3 dir = new Vector3(Mathf.Sin(angleRad), 0f, Mathf.Cos(angleRad)).normalized;
+        rb.linearVelocity = dir * currentSpeed;
     }
 
     /// <summary>Activa PowerBall durante 'duration' segundos.</summary>
     public void ActivatePowerBall(float duration)
     {
-        Debug.Log($"ActivatePowerBall called. Duration: {duration}");
         if (isPowerBall) return;
         isPowerBall = true;
         powerBallDuration = duration;
@@ -108,10 +157,9 @@ public class Ball : MonoBehaviour
             ballCollider.isTrigger = true;
     }
 
-    /// <summary>Desactiva PowerBall y restaura collider.</summary>
+    /// <summary>Desactiva PowerBall restaurando collider normal.</summary>
     public void DeactivatePowerBall()
     {
-        Debug.Log("DeactivatePowerBall called.");
         isPowerBall = false;
         if (ballCollider != null)
             ballCollider.isTrigger = false;
