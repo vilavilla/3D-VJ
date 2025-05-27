@@ -48,7 +48,7 @@ public class PauseMenuOnGUI : MonoBehaviour
         if (GUILayout.Button("Resume", GUILayout.Height(30)))
             Resume();
 
-        if (GUILayout.Button("Restart Level", GUILayout.Height(30)))
+        if (GUILayout.Button("Restart Game", GUILayout.Height(30)))
             RestartLevel();
 
         if (GUILayout.Button("Main Menu", GUILayout.Height(30)))
