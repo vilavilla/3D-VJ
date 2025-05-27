@@ -1,5 +1,8 @@
+// LevelManager.cs
 using UnityEngine;
 using UnityEngine.Playables;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,6 +17,15 @@ public class LevelManager : MonoBehaviour
 
     [Header("Recompensa")]
     public GameObject rewardPrefab;
+
+    [Header("Vidas y bola")]
+    public int lives = 3;                  // Vidas iniciales
+    public Transform spawnPoint;           // Asigna en Inspector
+    public GameObject ballPrefab;          // Prefab de la bola
+
+    [Header("UI")]
+    public TMP_Text livesText;     // Arrastra aquí tu TMP Text del Canvas
+
 
     int nivelActual = 0;
     bool transicionando = false;
@@ -32,6 +44,8 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         ActivarNivel(0);
+        SpawnBall();                        // Spawnea la primera bola
+        UpdateLivesUI();
     }
 
     void Update()
@@ -42,6 +56,31 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) CambiarNivelDirecto(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) CambiarNivelDirecto(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) CambiarNivelDirecto(4);
+    }
+
+    /// <summary>
+    /// Llamar desde Ball cuando z < -18
+    /// </summary>
+    public void LoseLife()
+    {
+        lives--;
+        UpdateLivesUI();    
+        Debug.Log($"[LevelManager] Vida perdida. Vidas restantes: {lives}");
+        if (lives > 0)
+            SpawnBall();
+        else
+            GameOver();
+    }
+
+    void SpawnBall()
+    {
+        Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
+    }
+
+    void GameOver()
+    {
+        Debug.Log("[LevelManager] GAME OVER");
+        SceneManager.LoadScene("MenuScene");
     }
 
     /// <summary>
@@ -121,5 +160,10 @@ public class LevelManager : MonoBehaviour
             transition.Stop();
             ActivarNivel(index);
         }
+    }
+    void UpdateLivesUI()
+    {
+        if (livesText != null)
+            livesText.text = $"Vidas: {lives}";
     }
 }

@@ -19,7 +19,6 @@ public class Ball : MonoBehaviour
     private float timeElapsed;
     private float powerBallTimer;
 
-
     private bool pendingMagnet = false;
     private bool isStuckToPaddle = false;
     private Transform paddle;
@@ -59,14 +58,15 @@ public class Ball : MonoBehaviour
 
             return; // no actualizar velocidad ni movimiento
         }
-                    // 1) velocidad progresiva
-        
+
+        // 1) velocidad progresiva (ya calculada más arriba)
+
         // 2) PowerBall timer
         if (isPowerBall)
         {
             powerBallTimer -= Time.deltaTime;
 
-            //  fuerza que el collider esté siempre como trigger mientras dura PowerBall
+            // fuerza que el collider esté siempre como trigger mientras dura PowerBall
             if (ballCollider != null && !ballCollider.isTrigger)
             {
                 Debug.Log(" Reforzando isTrigger = true");
@@ -91,6 +91,14 @@ public class Ball : MonoBehaviour
             vel = vel.normalized * currentSpeed;
         }
         rb.linearVelocity = vel;
+
+        // ——> AÑADIDO: si cae por detrás de Z = -18, restar vida y destruir
+        if (transform.position.z < -18f)
+        {
+            LevelManager.Instance.LoseLife();
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void OnCollisionEnter(Collision col)
@@ -98,12 +106,8 @@ public class Ball : MonoBehaviour
         if (isPowerBall)
         {
             Debug.Log($" Ignorando colisión con {col.gameObject.name} porque está activo PowerBall.");
-            return; //Previene llamadas indebidas que puedan causar reset
+            return; // Previene llamadas indebidas que puedan causar reset
         }
-
-       // Debug.Log($" Colisión con {col.gameObject.name}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
-
-       
 
         if (col.gameObject.CompareTag("Paddle"))
         {
@@ -122,11 +126,8 @@ public class Ball : MonoBehaviour
         }
     }
 
-
     void OnTriggerEnter(Collider other)
     {
-       // Debug.Log($" Contacto con {other.tag}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
-
         if (!isPowerBall) return;
 
         switch (other.tag)
@@ -156,7 +157,6 @@ public class Ball : MonoBehaviour
                 // otros tags: sin acción
                 break;
         }
-
     }
 
     void HandlePaddleBounce(Collision col)
@@ -206,10 +206,10 @@ public class Ball : MonoBehaviour
         if (ballCollider != null)
             ballCollider.isTrigger = false;
     }
+
     public void ActivateMagnetOnNextPaddleHit()
     {
         Debug.Log(" Power-up Magnet activado: se aplicará en el siguiente rebote");
         pendingMagnet = true;
     }
-
 }
