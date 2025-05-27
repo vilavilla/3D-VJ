@@ -129,6 +129,13 @@ public class LevelManager : MonoBehaviour
 
     void ActivarNivel(int index, bool skipActivation = false)
     {
+        // Destruye cualquier bola activa antes de cambiar de nivel
+        var existingBalls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (var ball in existingBalls)
+        {
+            Destroy(ball);
+        }
+
         if (!skipActivation)
             foreach (var go in niveles)
                 if (go != null) go.SetActive(false);
