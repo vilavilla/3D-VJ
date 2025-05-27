@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class Ball : MonoBehaviour
 {
     [Header("Movimiento")]
-    public float baseSpeed = 10f;
-    public float speedIncreaseRate = 0.2f;
+    public float baseSpeed = 5f;
+    public float speedIncreaseRate = 0.0f;
     public float minForwardComponent = 0.3f;
 
     [Header("PowerBall")]
@@ -17,6 +18,12 @@ public class Ball : MonoBehaviour
     private float currentSpeed;
     private float timeElapsed;
     private float powerBallTimer;
+
+
+    private bool pendingMagnet = false;
+    private bool isStuckToPaddle = false;
+    private Transform paddle;
+    private Vector3 magnetOffset;
 
     void Awake()
     {
@@ -36,10 +43,24 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        // 1) velocidad progresiva
         timeElapsed += Time.deltaTime;
         currentSpeed = baseSpeed + speedIncreaseRate * timeElapsed;
 
+        if (isStuckToPaddle && paddle != null)
+        {
+            transform.position = paddle.position + magnetOffset;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Bola liberada del paddle");
+                isStuckToPaddle = false;
+                rb.linearVelocity = Vector3.forward * currentSpeed; // o la dirección que quieras
+            }
+
+            return; // no actualizar velocidad ni movimiento
+        }
+                    // 1) velocidad progresiva
+        
         // 2) PowerBall timer
         if (isPowerBall)
         {
@@ -80,28 +101,36 @@ public class Ball : MonoBehaviour
             return; //Previene llamadas indebidas que puedan causar reset
         }
 
-        Debug.Log($" Colisión con {col.gameObject.name}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
+       // Debug.Log($" Colisión con {col.gameObject.name}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
 
-        // Rebote normal contra la paleta
+       
+
         if (col.gameObject.CompareTag("Paddle"))
+        {
+            if (pendingMagnet)
+            {
+                Debug.Log(" Bola se pega al paddle");
+                pendingMagnet = false;
+                isStuckToPaddle = true;
+                paddle = col.transform;
+                magnetOffset = transform.position - paddle.position;
+                rb.linearVelocity = Vector3.zero;
+                return;
+            }
+
             HandlePaddleBounce(col);
+        }
     }
 
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($" Contacto con {other.tag}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
+       // Debug.Log($" Contacto con {other.tag}, Trigger: {ballCollider.isTrigger}, PowerBall: {isPowerBall}");
 
         if (!isPowerBall) return;
 
         switch (other.tag)
         {
-            // 1) Blocks: destruye y atraviesa
-            case "Block":
-                var bc = other.GetComponent<BlockController>();
-                if (bc != null) bc.DestroyByPowerBall();
-                break;
-
             // 2) Paddle: rebote angular personalizado
             case "Paddle":
                 HandlePaddleTriggerBounce(other);
@@ -109,17 +138,25 @@ public class Ball : MonoBehaviour
 
             // 3) Walls: cualquiera de las 4 etiquetas "Wall" (izq, der, frente, atrás)
             case "Wall":
-                // Calculamos la normal entre el punto más cercano de la pared y la bola
-                Vector3 closest = other.ClosestPoint(transform.position);
-                Vector3 normal = (transform.position - closest).normalized;
-                rb.linearVelocity = Vector3.Reflect(rb.linearVelocity, normal).normalized * currentSpeed;
+                {
+                    // Punto más cercano sobre el collider de la pared
+                    Vector3 closest = other.ClosestPoint(transform.position);
+
+                    // Normal orientada hacia fuera del muro (de la pared hacia la bola)
+                    Vector3 normal = (transform.position - closest).normalized;
+
+                    // Rebote con reflexión vectorial y mantenimiento de velocidad
+                    Vector3 newDirection = Vector3.Reflect(rb.linearVelocity.normalized, normal);
+                    rb.linearVelocity = newDirection * currentSpeed;
+                }
                 break;
 
-            // 4) Suelo/destrucción no queremos rebotar: atraviesa sin acción
+            // 4) Suelo/destrucción: no se rebota, atraviesa
             default:
-                // otros tags: nada
+                // otros tags: sin acción
                 break;
         }
+
     }
 
     void HandlePaddleBounce(Collision col)
@@ -149,6 +186,8 @@ public class Ball : MonoBehaviour
     /// <summary>Activa PowerBall durante 'duration' segundos.</summary>
     public void ActivatePowerBall(float duration)
     {
+        Debug.Log($" activar, PowerBall: {isPowerBall}");
+
         if (isPowerBall) return;
         isPowerBall = true;
         powerBallDuration = duration;
@@ -160,8 +199,17 @@ public class Ball : MonoBehaviour
     /// <summary>Desactiva PowerBall restaurando collider normal.</summary>
     public void DeactivatePowerBall()
     {
+        Debug.Log($" desactivar, PowerBall: {isPowerBall}");
+
         isPowerBall = false;
+
         if (ballCollider != null)
             ballCollider.isTrigger = false;
     }
+    public void ActivateMagnetOnNextPaddleHit()
+    {
+        Debug.Log(" Power-up Magnet activado: se aplicará en el siguiente rebote");
+        pendingMagnet = true;
+    }
+
 }

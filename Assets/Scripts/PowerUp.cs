@@ -10,7 +10,6 @@ public enum PowerUpType
     PowerBallOff,
     MultiBall,
     Magnet,
-    NextLevel,
     SpeedUp,
     SlowDown,
     ExtraLife
@@ -25,7 +24,7 @@ public class PowerUp : MonoBehaviour
 
     [Header("Configuración común")]
     public PowerUpType type;
-    public float duration = 5.0f;
+    private float duration = 5.0f;
 
     [Header("Expand / Shrink Paddle")]
     public float paddleMultiplier = 1.5f;
@@ -96,7 +95,8 @@ public class PowerUp : MonoBehaviour
                     Debug.LogWarning("No Ball with Ball component found!");
                 else
                 {
-                    Debug.Log("Calling ActivatePowerBall");
+                    Debug.Log($"Calling ActivatePowerBall {duration}");
+
                     ballOn.ActivatePowerBall(duration);
                 }
                 break;
@@ -126,22 +126,16 @@ public class PowerUp : MonoBehaviour
 
             case PowerUpType.Magnet:
                 {
-                    /*var ball = GameObject.FindGameObjectWithTag("Ball");
-                    if (ball != null
-                        && ball.GetComponent<MagnetBall>() == null)
+                    var ball = GameObject.FindGameObjectWithTag("Ball");
+                    if (ball != null)
                     {
-                        ball.AddComponent<MagnetBall>();
-                    }*/
+                        var b = ball.GetComponent<Ball>();
+                        if (b != null)
+                            b.ActivateMagnetOnNextPaddleHit();
+                    }
+                    break;
                 }
-                break;
 
-            case PowerUpType.NextLevel:
-                {
-                    int next = SceneManager.GetActiveScene().buildIndex + 1;
-                    if (next < SceneManager.sceneCountInBuildSettings)
-                        SceneManager.LoadScene(next);
-                }
-                break;
 
             case PowerUpType.SpeedUp:
                 StartCoroutine(HandleSpeed(+speedDelta));
