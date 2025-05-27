@@ -36,7 +36,7 @@ public class Ball : MonoBehaviour
     {
         currentSpeed = baseSpeed;
         // lanzamiento inicial hacia adelante
-        Vector3 dir = new Vector3(Random.Range(-0.5f, 0.5f), 0f, 1f).normalized;
+        Vector3 dir = new Vector3(Random.Range(-0.5f, 0.5f), 0f, -1f).normalized;
         rb.linearVelocity = dir * currentSpeed;
     }
 
