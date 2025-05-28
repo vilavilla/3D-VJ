@@ -1,4 +1,3 @@
-// Reward.cs
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
@@ -22,9 +21,16 @@ public class Reward : MonoBehaviour
         rb.useGravity = true;
         rb.isKinematic = false;
 
-        // Asegúrate de que el collider físico no es trigger para chocar con el suelo
         col = GetComponent<Collider>();
         col.isTrigger = false;
+
+        // Ignorar colisiones con cualquier bola ya existente en escena
+        foreach (var ball in GameObject.FindGameObjectsWithTag("Ball"))
+        {
+            var ballCol = ball.GetComponent<Collider>();
+            if (ballCol != null)
+                Physics.IgnoreCollision(col, ballCol);
+        }
     }
 
     void Start()
@@ -44,13 +50,14 @@ public class Reward : MonoBehaviour
     {
         if (nivelCompletado) return;
 
+        // Si es la bola, la primera vez ignoramos la colisión y salimos
         if (collision.gameObject.CompareTag("Ball"))
         {
-            Physics.IgnoreCollision(collision.collider, col);
+            Physics.IgnoreCollision(col, collision.collider);
             return;
         }
 
-        // Si colisiona con el paddle, completar nivel
+        // Si choca con el paddle, completar nivel
         if (collision.gameObject.CompareTag("Paddle"))
         {
             nivelCompletado = true;
