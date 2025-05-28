@@ -2,75 +2,54 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Collections;
+using UnityEngine.Splines; // new: para usar SplineContainer
+using Unity.Mathematics; // new: para usar Vector3 y otras matemáticas
+using Unity.Cinemachine; // new: para usar CinemachineSplineDolly
 
 public class StartGameAfterTimeline : MonoBehaviour
 {
-    [Header("Timeline & GameController")]
-    public PlayableDirector timeline;
-    public TimelineAsset[] previewTimelines;   // new: array de TimelineAssets por nivel
-
+    public CinemachineSplineDolly splineDolly; // new: referencia al CinemachineSplineDolly
     [Header("Ball Spawn")]
     public GameObject ballPrefab;
     public Transform spawnPoint;
+    public float previewDuration = 7f; // new: duración de la 
 
-    void Start()
+
+    public void PlayPreview(int levelIndex) 
     {
-        // Arranca la intro del nivel 0
-        PlayPreview(0);
+        StopAllCoroutines(); // new: detiene cualquier rutina previa
+        StartCoroutine(PreviewRoutine(levelIndex)); // new: inicia la rutina de preview con el índice del nivel
+
     }
 
-    /// <summary>
-    /// Reproduce el preview correspondiente al nivel indicado.
-    /// </summary>
-    public void PlayPreview(int levelIndex)
+    private void Evaluate(float t)
     {
-        Debug.Log($"[DEBUG] Solicitado Preview para nivel {levelIndex}");             // 1
-        if (levelIndex < 0 || levelIndex >= previewTimelines.Length)
-        {
-            Debug.LogError($"[Preview] Nivel inválido {levelIndex}");
-            return;
-        }
-
-        timeline.Stop();
-        StopAllCoroutines();
-
-        // Antes de asignar, imprime qué asset había…
-        Debug.Log($"[DEBUG] Asset antiguo: {timeline.playableAsset?.name}");          // 2
-
-        timeline.playableAsset = previewTimelines[levelIndex];
-        timeline.time = 0;
-        timeline.Evaluate();
-
-        // Y ahora imprime el nuevo
-        Debug.Log($"[DEBUG] Asset asignado: {timeline.playableAsset?.name}");         // 3
-
-        StartCoroutine(PreviewRoutine(levelIndex));
+        //splineContainer.Evaluate(t, out Vector3 position, out Vector3 tangent, out Vector3 upVector);
+        splineDolly.CameraPosition = t;
     }
-
 
     IEnumerator PreviewRoutine(int levelIndex)                         // new: parámetro
     {
-        // 1) Inicia la reproducción desde cero
-        timeline.time = 0;
-        timeline.Evaluate();
-        timeline.Play();
+        
 
         // 2) Espera la duración o un ENTER para skip
-        float dur = (float)timeline.duration;
+        float dur = previewDuration;
         float elapsed = 0f;
         while (elapsed < dur)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                timeline.Stop();
+                //timeline.Stop();
                 break;
             }
             elapsed += Time.deltaTime;
+            Evaluate(elapsed / dur); // new: evalúa el spline
             yield return null;
         }
 
         // 3) Finaliza la reproducción y espera un frame
-        timeline.Stop();
+        //timeline.Stop();
+        Evaluate(1f); // new: evalúa el spline al final
         yield return null;
 
         // 4) Al acabar, spawnea la bola para ese nivel
