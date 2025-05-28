@@ -11,6 +11,7 @@ TagManager:
   - Ground
   - Wall
   - Cama
+  - RewardBall
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -9024337317115147388}
   m_Layer: 3
   m_Name: RewardBall
-  m_TagString: Untagged
+  m_TagString: RewardBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94a58c7181b861e47be40a413695f26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 12
   destroyY: -10
 --- !u!65 &-9024337317115147388
 BoxCollider:

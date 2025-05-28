@@ -124,6 +124,12 @@ public class Ball : MonoBehaviour
 
             HandlePaddleBounce(col);
         }
+        if (col.gameObject.CompareTag("RewardBall"))
+        {
+            Physics.IgnoreCollision(ballCollider, col.collider);
+            Debug.Log("Ignorando colisión con RewardBall");
+            return;
+        }
     }
 
     void OnTriggerEnter(Collider other)

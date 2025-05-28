@@ -13,6 +13,7 @@ public class Reward : MonoBehaviour
     public float destroyY = -10f;
 
     private Rigidbody rb;
+    private Collider col;
     private bool nivelCompletado = false;
 
     void Awake()
@@ -22,7 +23,7 @@ public class Reward : MonoBehaviour
         rb.isKinematic = false;
 
         // Asegúrate de que el collider físico no es trigger para chocar con el suelo
-        Collider col = GetComponent<Collider>();
+        col = GetComponent<Collider>();
         col.isTrigger = false;
     }
 
@@ -42,6 +43,12 @@ public class Reward : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (nivelCompletado) return;
+
+        if (collision.gameObject.CompareTag("Ball"))
+        {
+            Physics.IgnoreCollision(collision.collider, col);
+            return;
+        }
 
         // Si colisiona con el paddle, completar nivel
         if (collision.gameObject.CompareTag("Paddle"))

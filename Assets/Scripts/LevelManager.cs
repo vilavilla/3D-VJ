@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     {
         ActivarNivel(0);
         UpdateLivesUI();
-        previewController.PlayPreview(0);   // arranca preview nivel 0
+        previewController.PlayPreview(0);
     }
 
     void Update()
@@ -70,8 +70,13 @@ public class LevelManager : MonoBehaviour
 
     public void BloqueDestruido(Vector3 bloquePos)
     {
-        bloquesDestruidos++;
-        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * totalBloques)
+        ++bloquesDestruidos;
+        Debug.Log($"[LevelManager] Bloque destruido {bloquesDestruidos} / {totalBloques-1}");
+        if (bloquesDestruidos == totalBloques-1)
+        {
+            CompletarNivel();
+        }
+        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * (totalBloques-1))
         {
             recompensaAparecida = true;
             Vector3 spawnPos = bloquePos + Vector3.up * 3f;
@@ -83,23 +88,18 @@ public class LevelManager : MonoBehaviour
     {
         if (nivelActual >= niveles.Length - 1) return;
 
-        // 1) Desactiva el nivel actual
         niveles[nivelActual].SetActive(false);
 
-        // 2) Pasa al siguiente
         nivelActual++;
         niveles[nivelActual].SetActive(true);
 
-        // 3) Recalcula contadores internos
         ActivarNivel(nivelActual, skipActivation: true);
 
-        // 4) Lanza el preview del nuevo nivel
         previewController.PlayPreview(nivelActual);
     }
 
     void ActivarNivel(int index, bool skipActivation = false)
     {
-        // Limpia bolas viejas
         foreach (var b in GameObject.FindGameObjectsWithTag("Ball"))
             Destroy(b);
 
@@ -115,7 +115,6 @@ public class LevelManager : MonoBehaviour
 
         nivelActual = index;
 
-        // Cuenta bloques para reward
         totalBloques = 0;
         foreach (var t in niveles[index].GetComponentsInChildren<Transform>(true))
             if (t.CompareTag("Block"))

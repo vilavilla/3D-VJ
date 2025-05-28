@@ -2,61 +2,52 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using System.Collections;
-using UnityEngine.Splines; // new: para usar SplineContainer
-using Unity.Mathematics; // new: para usar Vector3 y otras matemáticas
-using Unity.Cinemachine; // new: para usar CinemachineSplineDolly
+using UnityEngine.Splines; 
+using Unity.Mathematics;
+using Unity.Cinemachine;
 
 public class StartGameAfterTimeline : MonoBehaviour
 {
-    public CinemachineSplineDolly splineDolly; // new: referencia al CinemachineSplineDolly
+    public CinemachineSplineDolly splineDolly; 
     [Header("Ball Spawn")]
     public GameObject ballPrefab;
     public Transform spawnPoint;
-    public float previewDuration = 7f; // new: duración de la 
+    public float previewDuration = 7f; 
 
 
     public void PlayPreview(int levelIndex) 
     {
-        StopAllCoroutines(); // new: detiene cualquier rutina previa
-        StartCoroutine(PreviewRoutine(levelIndex)); // new: inicia la rutina de preview con el índice del nivel
+        StopAllCoroutines(); 
+        StartCoroutine(PreviewRoutine(levelIndex));
 
     }
 
     private void Evaluate(float t)
     {
-        //splineContainer.Evaluate(t, out Vector3 position, out Vector3 tangent, out Vector3 upVector);
         splineDolly.CameraPosition = t;
     }
 
-    IEnumerator PreviewRoutine(int levelIndex)                         // new: parámetro
+    IEnumerator PreviewRoutine(int levelIndex)                         
     {
-        
-
-        // 2) Espera la duración o un ENTER para skip
         float dur = previewDuration;
         float elapsed = 0f;
         while (elapsed < dur)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                //timeline.Stop();
                 break;
             }
             elapsed += Time.deltaTime;
-            Evaluate(elapsed / dur); // new: evalúa el spline
+            Evaluate(elapsed / dur);
             yield return null;
         }
-
-        // 3) Finaliza la reproducción y espera un frame
-        //timeline.Stop();
-        Evaluate(1f); // new: evalúa el spline al final
+        Evaluate(1f); 
         yield return null;
 
-        // 4) Al acabar, spawnea la bola para ese nivel
-        OnPreviewComplete(levelIndex);                               // new
+        OnPreviewComplete(levelIndex);                               
     }
 
-    void OnPreviewComplete(int levelIndex)                             // new
+    void OnPreviewComplete(int levelIndex)                             
     {
         Debug.Log($"[Preview] Nivel {levelIndex} terminado, spawneando bola");
         if (ballPrefab != null && spawnPoint != null)
