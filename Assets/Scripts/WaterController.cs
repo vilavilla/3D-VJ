@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class BathtubFillController : MonoBehaviour
 {
     [Header("Plano de agua (hijo de la bañera)")]
@@ -14,13 +15,43 @@ public class BathtubFillController : MonoBehaviour
     [Header("Objeto a activar cuando la bañera se rompa")]
     public GameObject objectToActivate;
 
+    [Header("Audio de llenado")]
+    [Tooltip("Clip en bucle mientras se llena")]
+    public AudioClip fillClip;
+    [Range(0f, 1f)]
+    public float fillVolume = 0.2f;
+
+    [Header("Audio de derrame")]
+    [Tooltip("Clip que suena cuando se rompe/derrama")]
+    public AudioClip spillClip;
+    [Range(0f, 1f)]
+    public float spillVolume = 0.3f;
+
     private float currentScaleY = 0.1f;
+    private AudioSource audioSrc;
+
+    void Awake()
+    {
+        // AudioSource para ambos clips
+        audioSrc = GetComponent<AudioSource>();
+        audioSrc.playOnAwake = false;
+        audioSrc.loop = true;
+    }
 
     void Start()
     {
-        // Empieza con un pelín de agua (o 0 si prefieres)
+        // Aplica escala inicial de agua
         currentScaleY = 0.1f;
         ApplyWaterScale();
+
+        // Arranca el sonido de llenado en bucle
+        if (fillClip != null)
+        {
+            audioSrc.clip = fillClip;
+            audioSrc.volume = fillVolume;
+            audioSrc.loop = true;
+            audioSrc.Play();
+        }
     }
 
     void Update()
@@ -29,18 +60,23 @@ public class BathtubFillController : MonoBehaviour
         if (currentScaleY < maxScaleY)
         {
             currentScaleY += fillSpeed * Time.deltaTime;
-            if (currentScaleY > maxScaleY)
+            if (currentScaleY >= maxScaleY)
+            {
                 currentScaleY = maxScaleY;
+                // Al llegar al tope, paramos el sonido de llenado
+                if (audioSrc.isPlaying)
+                    audioSrc.Stop();
+            }
             ApplyWaterScale();
         }
     }
 
     void ApplyWaterScale()
     {
-        // 1) Escalado local en Y (XZ fijos según tu escala deseada)
+        // Escalado local en Y (XZ fijos según tu escala deseada)
         waterPlane.localScale = new Vector3(0.8f, currentScaleY, 1.7f);
 
-        // 2) Compensa posición Y para que la base quede fija
+        // Compensa posición Y para que la base quede fija
         float yOffset = currentScaleY * 0.5f;
         waterPlane.localPosition = new Vector3(
             waterPlane.localPosition.x,
@@ -49,24 +85,30 @@ public class BathtubFillController : MonoBehaviour
         );
     }
 
-    // Este método se llama **justo antes** de que se destruya este GameObject
+    // Este método se llama justo antes de que se destruya este GameObject
     void OnDestroy()
     {
-        // 2) Reproduce la animación “WaterSpill”
-        var anim = objectToActivate.GetComponent<Animation>();
-        if (anim != null && anim.GetClip("WaterSpill") != null)
-        {
-            anim.Play("WaterSpill");
-        }
-        else
-        {
-            var animator = objectToActivate.GetComponent<Animator>();
-            if (animator != null)
-                animator.SetTrigger("Spill");
-        }
-    
+        // Reproduce derrame
+        if (spillClip != null)
+            audioSrc.PlayOneShot(spillClip, spillVolume);
 
+        // Activa el objeto de derrame y su animación
         if (objectToActivate != null)
+        {
             objectToActivate.SetActive(true);
+
+            // Reproduce animación “WaterSpill” si existe
+            var anim = objectToActivate.GetComponent<Animation>();
+            if (anim != null && anim.GetClip("WaterSpill") != null)
+            {
+                anim.Play("WaterSpill");
+            }
+            else
+            {
+                var animator = objectToActivate.GetComponent<Animator>();
+                if (animator != null)
+                    animator.SetTrigger("Spill");
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Vidas y bola")]
     public int lives = 3;
+    private int maxlives = 3;
     public Transform spawnPoint;
     public GameObject ballPrefab;
 
@@ -32,6 +33,7 @@ public class LevelManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
+        lives = maxlives;
     }
 
     void Start()

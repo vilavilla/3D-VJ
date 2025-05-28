@@ -21,7 +21,7 @@ public class BearJump : MonoBehaviour
     {
         Debug.Log($"[BearJumpOnBed] OnCollisionEnter con '{other.gameObject.name}' (tag='{other.gameObject.tag}')");
 
-        if (other.gameObject.CompareTag("Cama"))
+        if (other.gameObject.CompareTag("Cama") || other.gameObject.CompareTag("Sofa"))
         {
             Debug.Log("[BearJumpOnBed] �Es cama! Preparando salto�");
 

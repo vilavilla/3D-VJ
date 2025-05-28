@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - Cama
   - RewardBall
+  - Sofa
   layers:
   - Default
   - TransparentFX
