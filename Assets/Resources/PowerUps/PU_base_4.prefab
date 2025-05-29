@@ -130,11 +130,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 5
   type: 4
-  duration: 1
   paddleMultiplier: 1.5
   clampMaxMultiplier: 2
   clampMinMultiplier: 0.75
-  ballPrefab: {fileID: 0}
+  ballPrefab: {fileID: 8234221734649583925, guid: 4e6141510ea1f874c8f1819543f53b62, type: 3}
   extraBalls: 2
   speedDelta: 2
 --- !u!135 &9131248417537423101

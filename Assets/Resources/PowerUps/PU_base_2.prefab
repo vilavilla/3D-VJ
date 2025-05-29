@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 16ad16a08f5f7ca48855fa52ff3a937d, type: 2}
+  - {fileID: 2100000, guid: 089acd68d0d5f7a47bd17e16031fc99d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 5
   type: 2
-  duration: 1
   paddleMultiplier: 1.5
   clampMaxMultiplier: 2
   clampMinMultiplier: 0.75

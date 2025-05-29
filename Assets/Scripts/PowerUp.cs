@@ -33,7 +33,7 @@ public class PowerUp : MonoBehaviour
 
     [Header("MultiBall")]
     public GameObject ballPrefab;
-    public int extraBalls = 2;
+   
 
     [Header("SpeedUp / SlowDown")]
     public float speedDelta = 2f;
@@ -114,7 +114,9 @@ public class PowerUp : MonoBehaviour
                 break;
 
             case PowerUpType.MultiBall:
-                for (int i = 0; i < extraBalls; i++)
+                GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+
+                foreach (var b in balls)
                 {
                     Instantiate(
                         ballPrefab,
@@ -146,7 +148,7 @@ public class PowerUp : MonoBehaviour
                 break;
 
             case PowerUpType.ExtraLife:
-               // GameManager.Instance.AddLife(1);
+                LevelManager.Instance.AddLife();
                 break;
         }
     }

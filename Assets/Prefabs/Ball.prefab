@@ -156,7 +156,7 @@ MonoBehaviour:
   isPowerBall: 0
   powerBallDuration: 5
   collisionClip: {fileID: 8300000, guid: 894cbcc0933c1f345a50cc9f1dcb62f2, type: 3}
-  collisionVolume: 1
+  collisionVolume: 0.259
   pendingMagnet: 0
 --- !u!82 &358602790340424246
 AudioSource:

@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
+using System.Collections.Generic;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
@@ -24,10 +25,18 @@ public class LevelManager : MonoBehaviour
     [Header("UI")]
     public TMP_Text livesText;
 
+    [Header("UI")]
+    public TMP_Text levelText;
+
+
     int nivelActual = 0;
     int totalBloques = 0;
     int bloquesDestruidos = 0;
     bool recompensaAparecida = false;
+
+    // Referencias a todas las palas en el nivel y sus posiciones iniciales
+    private List<GameObject> paddleObjects = new List<GameObject>();
+    private List<Vector3> paddleStartPositions = new List<Vector3>();
 
     void Awake()
     {
@@ -38,6 +47,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+
         ActivarNivel(0);
         UpdateLivesUI();
         previewController.PlayPreview(0);
@@ -56,18 +66,22 @@ public class LevelManager : MonoBehaviour
     {
         lives--;
         UpdateLivesUI();
-        if (lives > 0) SpawnBall();
+        if (lives > 0) StartCoroutine(SpawnBallAndResetPaddles()); 
         else GameOver();
     }
 
-    public void SpawnBall()
-    {
-        Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
-    }
+    
+  
+
 
     void GameOver()
     {
-        SceneManager.LoadScene("MenuScene");
+        // Busca el componente GameOverMenuOnGUI en escena y muestra el menú  
+        var gameOverMenu = Object.FindFirstObjectByType<GameOverMenuOnGUI>();
+        if (gameOverMenu != null)
+            gameOverMenu.ShowGameOver();
+        else
+            Debug.LogError("No se encontró GameOverMenuOnGUI en la escena");
     }
 
     public void BloqueDestruido(Vector3 bloquePos)
@@ -78,7 +92,7 @@ public class LevelManager : MonoBehaviour
         {
             CompletarNivel();
         }
-        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * (totalBloques-1))
+        if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques-1))
         {
             recompensaAparecida = true;
             Vector3 spawnPos = bloquePos + Vector3.up * 3f;
@@ -88,7 +102,11 @@ public class LevelManager : MonoBehaviour
 
     public void CompletarNivel()
     {
-        if (nivelActual >= niveles.Length - 1) return;
+        if (nivelActual >= niveles.Length - 1)
+        {
+            SceneManager.LoadScene("CreditsScene");
+
+        }
 
         niveles[nivelActual].SetActive(false);
 
@@ -98,6 +116,7 @@ public class LevelManager : MonoBehaviour
         ActivarNivel(nivelActual, skipActivation: true);
 
         previewController.PlayPreview(nivelActual);
+
     }
 
     void ActivarNivel(int index, bool skipActivation = false)
@@ -115,6 +134,18 @@ public class LevelManager : MonoBehaviour
         if (!skipActivation)
             niveles[index].SetActive(true);
 
+        // Captura todas las palas (incluso inactivas) del nivel y guarda sus posiciones
+        paddleObjects.Clear();
+        paddleStartPositions.Clear();
+        foreach (var t in niveles[index].GetComponentsInChildren<Transform>(true))
+        {
+            if (t.CompareTag("Paddle"))
+            {
+                paddleObjects.Add(t.gameObject);
+                paddleStartPositions.Add(t.position);
+            }
+        }
+
         nivelActual = index;
 
         totalBloques = 0;
@@ -124,6 +155,7 @@ public class LevelManager : MonoBehaviour
 
         bloquesDestruidos = 0;
         recompensaAparecida = false;
+        UpdateLevelUI();
     }
 
     public void CambiarNivelDirecto(int index)
@@ -134,10 +166,39 @@ public class LevelManager : MonoBehaviour
             previewController.PlayPreview(index);
         }
     }
-
+    public void AddLife()
+    {
+        lives = Mathf.Min(lives + 1, maxlives);  // no pase del máximo
+        UpdateLivesUI();
+        Debug.Log($"[LevelManager] Vida extra recogida  Vidas: {lives}");
+    }
     void UpdateLivesUI()
     {
         if (livesText != null)
             livesText.text = $"Vidas: {lives}";
     }
+
+    void UpdateLevelUI()
+    {
+        if (levelText != null)
+            levelText.text = $"Level: {nivelActual+1}";
+    }
+
+
+    private IEnumerator SpawnBallAndResetPaddles()
+    {
+        // Espera 1 segundo antes de reaparecer
+        yield return new WaitForSeconds(1f);
+
+        // Resetea la posición de todas las palas a las posiciones iniciales
+        for (int i = 0; i < paddleObjects.Count; i++)
+        {
+            if (paddleObjects[i] != null)
+                paddleObjects[i].transform.position = paddleStartPositions[i];
+        }
+
+        // Genera la bola en el punto de spawn
+        Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
+    }
+
 }

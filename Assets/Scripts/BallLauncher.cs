@@ -16,8 +16,7 @@ public class Ball : MonoBehaviour
     [Header("Sonido de Colisi�n")]
     [Tooltip("Clip que suena cada vez que la bola choca")]
     public AudioClip collisionClip;
-    [Range(0f, 1f)]
-    public float collisionVolume = 0.3f;
+    private float collisionVolume = 0.3f;
 
     [Header("PowerBall Magnet")]
     public bool pendingMagnet = false;
@@ -92,10 +91,16 @@ public class Ball : MonoBehaviour
         }
         rb.linearVelocity = vel;
 
-        // Si cae por detr�s de Z = -18, restar vida y destruir
         if (transform.position.z < -18f)
         {
-            LevelManager.Instance.LoseLife();
+            // Cuenta cuántas bolas hay
+            var balls = GameObject.FindGameObjectsWithTag("Ball");
+            if (balls.Length <= 1)
+            {
+                // Si era la última bola, restamos vida
+                LevelManager.Instance.LoseLife();
+            }
+            // Siempre destruye esta bola
             Destroy(gameObject);
         }
     }
