@@ -20,7 +20,7 @@ public class BlockController : MonoBehaviour
     [Tooltip("Prefabs de power-ups que puede soltar este bloque")]
     public GameObject[] powerUpPrefabs;
     [Range(0f, 1f), Tooltip("Probabilidad de soltar un power-up al romperse")]
-    private float spawnChance = 0.2f;
+    private float spawnChance = 1.0f;//0.2f;
 
     void Awake()
     {
@@ -57,7 +57,8 @@ public class BlockController : MonoBehaviour
             // 3) El resto (power-ups, puntos) igual que antes…
             if (powerUpPrefabs.Length > 0 && Random.value < spawnChance)
             {
-                int idx = Random.Range(0, powerUpPrefabs.Length - 1);
+                int idx = 0;
+                //int idx = Random.Range(0, powerUpPrefabs.Length - 1);
                 Vector3 spawnPos = new Vector3(
                     transform.position.x, -3.5f, transform.position.z
                 );

@@ -108,7 +108,7 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         // Suena en cualquier choque f�sico (si no es PowerBall)
-        if (!isPowerBall && collisionClip != null)
+        if (!isPowerBall && collisionClip != null && !col.gameObject.CompareTag("Ground"))
             audioSrc.PlayOneShot(collisionClip, collisionVolume);
 
         if (isPowerBall)

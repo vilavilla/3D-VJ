@@ -5,9 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PaddleController : MonoBehaviour
 {
-    [Header("Movimiento")]
-    [Tooltip("Velocidad de desplazamiento en unidades/segundo")]
-    public float speed = 10f;
+    private float speed = 25f;
 
     [Header("Rebote pelota")]
     [Tooltip("Ángulo máximo de rebote hacia los lados (grados)")]

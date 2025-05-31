@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 81f714daf7144784b8a2f42f1cd30927, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -465,7 +465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -508,7 +507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -1539,7 +1537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 348906718}
   rightExt: {fileID: 1030270065}
@@ -1624,7 +1621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 138293438}
   rightExt: {fileID: 656215034}
@@ -2771,10 +2767,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: 'SCORE: 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
+  m_sharedMaterial: {fileID: -9164944840074833625, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2798,13 +2794,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -3447,7 +3443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -8663,7 +8658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -10010,7 +10004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -10674,7 +10667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -10891,7 +10883,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: da41e8f514bae954bacbe4bd4eea4735, type: 2}
+  - {fileID: 2100000, guid: c719e38f25a9480abd2480ab621a2949, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17075,7 +17067,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: da41e8f514bae954bacbe4bd4eea4735, type: 2}
+  - {fileID: 720171995847794911, guid: 0664a2af23d262b4c895c2c975cbb826, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17781,7 +17773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &888015902
 Transform:
   m_ObjectHideFlags: 0
@@ -18066,7 +18058,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.47713688, g: 0.78616345, b: 0.7775429, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -19091,7 +19083,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -19652,7 +19643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -20773,7 +20763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1163522929
 Transform:
   m_ObjectHideFlags: 0
@@ -22327,7 +22317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -22370,7 +22359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -23156,7 +23144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -23257,7 +23244,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1203795206462642204, guid: ddaeb73f60bbfb043a640883d3f6be01, type: 3}
       propertyPath: m_Constraints
-      value: 10
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 8362172806319197004, guid: ddaeb73f60bbfb043a640883d3f6be01, type: 3}
       propertyPath: m_Name
@@ -23743,10 +23730,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level: 1'
+  m_text: 'LEVEL: 1'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
+  m_sharedMaterial: {fileID: -9164944840074833625, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23770,13 +23757,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -24759,7 +24746,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: da41e8f514bae954bacbe4bd4eea4735, type: 2}
+  - {fileID: 720171995847794911, guid: 0664a2af23d262b4c895c2c975cbb826, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25029,7 +25016,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 138293438}
   rightExt: {fileID: 656215034}
@@ -25366,7 +25352,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: da41e8f514bae954bacbe4bd4eea4735, type: 2}
+  - {fileID: 720171995847794911, guid: 0664a2af23d262b4c895c2c975cbb826, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25433,7 +25419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 1066742487}
   rightExt: {fileID: 558397293}
@@ -25705,7 +25690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   maxBounceAngle: 60
   leftExt: {fileID: 0}
   rightExt: {fileID: 0}
@@ -25813,7 +25797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 16540062}
   rightExt: {fileID: 1364721482}
@@ -26057,7 +26040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8383690479356465971, guid: 387da3a749befca4fb8e7bd6efd1c3cf, type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 9156674278977800585, guid: 387da3a749befca4fb8e7bd6efd1c3cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -26323,7 +26306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
   maxBounceAngle: 60
   leftExt: {fileID: 1894289479}
   rightExt: {fileID: 1508339799}
@@ -26874,10 +26856,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lives: 3'
+  m_text: 'LIVES: 3'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
+  m_sharedMaterial: {fileID: -9164944840074833625, guid: 4c87db65dd55b9d46913eae0cfe36617, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -26901,13 +26883,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535

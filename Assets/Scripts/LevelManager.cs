@@ -92,7 +92,7 @@ public class LevelManager : MonoBehaviour
         {
             CompletarNivel();
         }
-        if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques-1))
+        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * (totalBloques-1))
         {
             recompensaAparecida = true;
             Vector3 spawnPos = bloquePos + Vector3.up * 3f;
@@ -123,6 +123,12 @@ public class LevelManager : MonoBehaviour
     {
         foreach (var b in GameObject.FindGameObjectsWithTag("Ball"))
             Destroy(b);
+
+        foreach (var rb in GameObject.FindGameObjectsWithTag("RewardBall"))
+            Destroy(rb);
+
+        foreach (var pu in GameObject.FindGameObjectsWithTag("PowerUp"))
+            Destroy(pu);
 
         if (!skipActivation)
             foreach (var go in niveles)
@@ -175,13 +181,13 @@ public class LevelManager : MonoBehaviour
     void UpdateLivesUI()
     {
         if (livesText != null)
-            livesText.text = $"Vidas: {lives}";
+            livesText.text = $"LIVES: {lives}";
     }
 
     void UpdateLevelUI()
     {
         if (levelText != null)
-            levelText.text = $"Level: {nivelActual+1}";
+            levelText.text = $"LEVEL: {nivelActual+1}";
     }
 
 
