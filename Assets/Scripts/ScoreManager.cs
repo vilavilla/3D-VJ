@@ -94,7 +94,7 @@ public class ScoreManager : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = $"Score: {CurrentScore}";
+            scoreText.text = $"SCORE: {CurrentScore}";
         if (highScoreText != null)
             highScoreText.text = $"High Score: {HighScore}";
     }
