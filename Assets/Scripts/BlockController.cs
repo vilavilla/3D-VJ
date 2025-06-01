@@ -20,7 +20,7 @@ public class BlockController : MonoBehaviour
     [Tooltip("Prefabs de power-ups que puede soltar este bloque")]
     public GameObject[] powerUpPrefabs;
     [Range(0f, 1f), Tooltip("Probabilidad de soltar un power-up al romperse")]
-    private float spawnChance = 1.0f;
+    private float spawnChance = 0.2f;
     void Awake()
     {
         // Carga los power-ups si no están asignados en el Inspector
