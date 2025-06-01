@@ -76,6 +76,8 @@ public class LevelManager : MonoBehaviour
 
     void GameOver()
     {
+        // Guarda el highscore si es necesario
+        ScoreManager.Instance.EndGame();
         // Busca el componente GameOverMenuOnGUI en escena y muestra el menú  
         var gameOverMenu = Object.FindFirstObjectByType<GameOverMenuOnGUI>();
         if (gameOverMenu != null)
@@ -104,6 +106,8 @@ public class LevelManager : MonoBehaviour
     {
         if (nivelActual >= niveles.Length - 1)
         {
+            // Guarda el highscore si es necesario
+            ScoreManager.Instance.EndGame();    
             SceneManager.LoadScene("CreditsScene");
 
         }

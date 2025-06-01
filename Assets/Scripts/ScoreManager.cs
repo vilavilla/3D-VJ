@@ -46,16 +46,9 @@ public class ScoreManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Menú principal: solo HighScore
-        if (scene.name == "MenuScene")
-        {
-            scoreText = null;
-            highScoreText = GameObject.Find("HighScoreText")
-                              .GetComponent<TMP_Text>();
-            UpdateUI();
-        }
+     
         // Escena de juego (“SampleScene”)
-        else if (scene.name == "SampleScene")
+         if (scene.name == "SampleScene")
         {
             CurrentScore = 0;
             scoreText = GameObject.Find("ScoreText")

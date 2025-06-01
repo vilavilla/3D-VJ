@@ -15,30 +15,70 @@ public class MenuController : MonoBehaviour
 
     void Awake()
     {
-        // Asegúrate de que estos campos están asignados en el Inspector:
-        //  - highScoreText  tu TMP en la escena
-        //  - playButton     tu Button “Play”
-        //  - creditsButton  tu Button “Credits”
-        //  - quitButton     tu Button “Quit”
+        // Si no has arrastrado desde el Inspector, los buscamos por nombre:
+        if (highScoreText == null)
+            highScoreText = GameObject.Find("HighScoreText")?.GetComponent<TextMeshProUGUI>();
+
+        if (playButton == null)
+            playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
+
+        if (creditsButton == null)
+            creditsButton = GameObject.Find("CreditsButton")?.GetComponent<Button>();
+
+        if (quitButton == null)
+            quitButton = GameObject.Find("QuitButton")?.GetComponent<Button>();
     }
 
     void Start()
     {
-        // 1) Mostrar High Score
-        int hs = PlayerPrefs.GetInt("HighScore", 0);
-        if (highScoreText != null)
-            highScoreText.text = "High Score: " + hs;
 
-        // 2) Conectar los botones a sus métodos
-        playButton.onClick.RemoveAllListeners();
-        playButton.onClick.AddListener(PlayGame);
+        // Asignamos los listeners de los botones
+        if (playButton != null)
+        {
+            playButton.onClick.RemoveAllListeners();
+            playButton.onClick.AddListener(PlayGame);
+        }
 
-        creditsButton.onClick.RemoveAllListeners();
-        creditsButton.onClick.AddListener(ShowCredits);
+        if (creditsButton != null)
+        {
+            creditsButton.onClick.RemoveAllListeners();
+            creditsButton.onClick.AddListener(ShowCredits);
+        }
 
-        quitButton.onClick.RemoveAllListeners();
-        quitButton.onClick.AddListener(QuitGame);
+        if (quitButton != null)
+        {
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(QuitGame);
+        }
+
+        // Hacemos una primera puesta a punto inmediata (por si queremos mostrar algo nada más abrir el menú)
+        RefreshHighScoreText();
     }
+    void Update()
+    {
+        
+            RefreshHighScoreText();
+       
+    }
+    void RefreshHighScoreText()
+    {
+        int hs = 0;
+
+        // Si ScoreManager ya existe, uso ese valor actualizado;
+        // en caso contrario, leo directamente de PlayerPrefs:
+        if (ScoreManager.Instance != null)
+        {
+            hs = ScoreManager.Instance.HighScore;
+        }
+        else
+        {
+            hs = PlayerPrefs.GetInt("HighScore", 0);
+        }
+
+        if (highScoreText != null)
+            highScoreText.text = $"High Score: {hs}";
+    }
+
 
     public void PlayGame()
     {
