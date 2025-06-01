@@ -38,6 +38,10 @@ public class PowerUp : MonoBehaviour
     [Header("SpeedUp / SlowDown")]
     public float speedDelta = 2f;
 
+    [Header("Audio & Puntuación")]
+    public AudioClip pickUpSound;     // Asigna en Inspector un clip de recogida
+    public int scoreAmount = 100;     // Puntos que suma este PowerUp al ScoreManager
+
     void Awake()
     {
         // Caída continua sin gravedad
@@ -60,6 +64,18 @@ public class PowerUp : MonoBehaviour
     {
         Debug.Log($"PowerUp of type {type} collided with {other.name} (tag={other.tag})");
         if (!other.CompareTag("Paddle")) return;
+
+        // 1) Reproducir sonido de recogida (en la posición de la cámara principal)
+        if (pickUpSound != null && Camera.main != null)
+        {
+            AudioSource.PlayClipAtPoint(pickUpSound, Camera.main.transform.position);
+        }
+
+        // 2) Sumar puntos al ScoreManager
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddPoints(scoreAmount);
+        }
 
         Debug.Log("Matched Paddle, applying effect");
         ApplyEffect(other.gameObject);
