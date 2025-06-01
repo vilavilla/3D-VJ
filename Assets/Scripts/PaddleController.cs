@@ -1,119 +1,106 @@
-using System.Runtime.ExceptionServices;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public class PaddleController : MonoBehaviour
 {
     private float speed = 25f;
 
-    [Header("Rebote pelota")]
-    [Tooltip("Ángulo máximo de rebote hacia los lados (grados)")]
-    public float maxBounceAngle = 60f;
-
+  
     private Rigidbody rb;
-    private Collider col;
- 
 
-    [Header("Extensiones para power-up Expand/Shrink")]
-    public GameObject leftExt;
-    public GameObject rightExt;
+    [Header("Colliders del Paddle (estos tres deben vivir en hijos de PaddleRoot)")]
+    // Asigna manualmente en el Inspector los 3 BoxCollider que tienes repartidos en "Centro", "LeftExt" y "RightExt"
+    public Collider centerCollider;
+    public Collider leftExtCollider;
+    public Collider rightExtCollider;
+
+    [Header("Extensiones para power-up Expand/Shrink (solo visual)")]
+    public GameObject leftExt;   // El hijo que contiene la malla + BoxCollider de la extensión izquierda
+    public GameObject rightExt;  // El hijo que contiene la malla + BoxCollider de la extensión derecha
 
     void Awake()
     {
-        // Aseguramos el Rigidbody y lo configuramos
+        // 1) Aseguramos el Rigidbody y lo configuramos
         rb = GetComponent<Rigidbody>();
         if (rb == null) rb = gameObject.AddComponent<Rigidbody>();
 
-        // Dinámico para que la física lo frene
         rb.isKinematic = false;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        // Sólo libre en X, lo demás congelado
         rb.constraints = RigidbodyConstraints.FreezePositionY
                        | RigidbodyConstraints.FreezePositionZ
                        | RigidbodyConstraints.FreezeRotation;
 
-        // Aseguramos el Collider (no trigger, para que rechace)
-        col = GetComponent<Collider>();
-        if (col == null)
-            Debug.LogError("Paddle necesita un Collider para funcionar correctamente.");
+        // 2) Al iniciar, DESACTIVAMOS TODOS los colliders de las extensiones y el central:
+        if (centerCollider != null) centerCollider.enabled = true;
+        if (leftExtCollider != null) leftExtCollider.enabled = false;
+        if (rightExtCollider != null) rightExtCollider.enabled = false;
 
-        // — AUTO-ASIGNACIÓN de extensiones si no están puestas en el Inspector —
-        if (leftExt == null)
-        {
-            var t = transform.Find("LeftExt");
-            if (t != null) leftExt = t.gameObject;
-        }
-        if (rightExt == null)
-        {
-            var t = transform.Find("RightExt");
-            if (t != null) rightExt = t.gameObject;
-        }
-
-        // Asegúrate de que empiecen ocultas
-        SetExtended(false);
+        // 3) Ocultamos las mallas de las extensiones (porque al inicio no deben verse)
+        if (leftExt != null) leftExt.SetActive(false);
+        if (rightExt != null) rightExt.SetActive(false);
     }
 
     void FixedUpdate()
     {
-        // Movemos por linearVelocity en vez de MovePosition
+        // Movemos usando rb.velocity en lugar de rb.linearVelocity
         float h = Input.GetAxis("Horizontal"); // -1..+1
         Vector3 vel = new Vector3(h * speed, 0f, 0f);
         rb.linearVelocity = vel;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        // Rebote de la bola (sin cambios)
-        if (!collision.gameObject.CompareTag("Ball")) return;
-        Rigidbody ballRb = collision.rigidbody;
-        if (ballRb == null) return;
-
-        Vector3 contactPt = collision.GetContact(0).point;
-        float offset = contactPt.x - transform.position.x;
-        float halfWidth = col.bounds.extents.x;
-
-        float norm = Mathf.Clamp(offset / halfWidth, -1f, 1f);
-        float bounceRad = norm * maxBounceAngle * Mathf.Deg2Rad;
-
-        Vector3 newDir = new Vector3(Mathf.Sin(bounceRad), 0f, Mathf.Cos(bounceRad)).normalized;
-        float speedBefore = ballRb.linearVelocity.magnitude;
-        ballRb.linearVelocity = newDir * speedBefore;
-    }
+   
 
     /// <summary>
-    /// Muestra u oculta las secciones extra del paddle.
-    /// </summary>
-    /// <summary>
-    /// Activa progresivamente las extensiones: primero la derecha, luego la izquierda.
-    /// Al desactivar, se hace al revés: primero la izquierda, luego la derecha.
+    /// Activa o desactiva progresivamente las secciones del paddle:
+    /// - on == true: primero habilita extensión derecha, luego extensión izquierda, luego zona central
+    /// - on == false: primero inhabilita zona central, luego extensión izquierda, luego extensión derecha
     /// </summary>
     public void SetExtended(bool on)
     {
         if (on)
         {
-            // Si todavía no está la extensión derecha, ponla
-            if (rightExt != null && !rightExt.activeSelf)
+            // 1) Si aún no está activa la sección DERECHA, habilítala
+            if (rightExtCollider != null && !rightExtCollider.enabled)
             {
-                rightExt.SetActive(true);
+                rightExtCollider.enabled = true;
+                if (rightExt != null) rightExt.SetActive(true);
+                return;
             }
-            // Si la derecha ya está y la izquierda no, pon la izquierda
-            else if (leftExt != null && !leftExt.activeSelf)
+            // 2) Si la derecha ya está activa, habilita la IZQUIERDA
+            if (leftExtCollider != null && !leftExtCollider.enabled)
             {
-                leftExt.SetActive(true);
+                leftExtCollider.enabled = true;
+                if (leftExt != null) leftExt.SetActive(true);
+                return;
+            }
+            // 3) Si ambas extensiones ya están activas, habilita la zona CENTRAL final
+            if (centerCollider != null && !centerCollider.enabled)
+            {
+                centerCollider.enabled = true;
+                return;
             }
         }
         else
         {
-            // Al quitar, primero apaga la izquierda si está activa
-            if (leftExt != null && leftExt.activeSelf)
+            // 1) Si la zona CENTRAL está activa, desactívala primero
+            if (centerCollider != null && centerCollider.enabled)
             {
-                leftExt.SetActive(false);
+                centerCollider.enabled = false;
+                return;
             }
-            // Si la izquierda ya estaba apagada, apaga la derecha
-            else if (rightExt != null && rightExt.activeSelf)
+            // 2) Si la central ya estaba inactiva, desactiva la extensión IZQUIERDA
+            if (leftExtCollider != null && leftExtCollider.enabled)
             {
-                rightExt.SetActive(false);
+                leftExtCollider.enabled = false;
+                if (leftExt != null) leftExt.SetActive(false);
+                return;
+            }
+            // 3) Si la izquierda ya estaba inactiva, desactiva la extensión DERECHA
+            if (rightExtCollider != null && rightExtCollider.enabled)
+            {
+                rightExtCollider.enabled = false;
+                if (rightExt != null) rightExt.SetActive(false);
+                return;
             }
         }
     }

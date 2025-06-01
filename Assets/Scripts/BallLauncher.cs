@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     public float baseSpeed = 5f;
     public float speedIncreaseRate = 0.0f;
     public float minForwardComponent = 0.3f;
+    public float maxBounceAngle = 60f;
 
     [Header("PowerBall")]
     public bool isPowerBall = false;
@@ -158,13 +159,69 @@ public class Ball : MonoBehaviour
 
     void HandlePaddleBounce(Collision col)
     {
-        BounceFromPoint(col.GetContact(0).point);
+        // 1) Averiguamos qué collider del paddle tocó la bola.
+        //    Si tu paddle está compuesto por varios colliders (Centro, LeftExt, RightExt),
+        //    col.collider será el BoxCollider concreto que recibió el choque.
+        //    Tomamos la posición X del punto de contacto:
+        Vector3 contactPoint = col.GetContact(0).point;
+
+        // 2) Calculamos el offset horizontal relativo al centro del paddle.
+        //    col.transform.position es la posición del GameObject que tiene el PaddleController.
+        //    (Si el PaddleController está en PaddleRoot, col.transform.parent coincide con PaletteRoot).
+        float paddleCenterX = col.transform.position.x;
+        float offset = contactPoint.x - paddleCenterX;
+
+        // 3) Normalizamos ese offset con el ancho del collider activo:
+        //    halfWidth = distancia entre el centro y el extremo del collider donde ocurrió el choque.
+        float halfWidth = 0f;
+        Collider usedCollider = col.collider; // El collider “físico” que recibió el golpe
+        halfWidth = usedCollider.bounds.extents.x;
+
+        // 4) Obtenemos un valor entre -1 y +1:
+        float normalizedOffset = Mathf.Clamp(offset / halfWidth, -1f, 1f);
+
+        // 5) Calculamos el ángulo de rebote en radianes:
+        //    −1 → 60° hacia la izquierda   (máximo rebote hacia X negativa)
+        //    0  → rebote “recto” (Z positiva)
+        //    +1 → 60° hacia la derecha  (máximo rebote hacia X positiva)
+        float bounceAngleRad = normalizedOffset * maxBounceAngle * Mathf.Deg2Rad;
+
+        // 6) Construimos la nueva dirección: X = sin, Z = cos
+        Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad)).normalized;
+
+        // 7) Mantenemos la velocidad que llevaba la bola antes del impacto:
+        float speedBefore = rb.linearVelocity.magnitude;
+
+        // 8) Asignamos la nueva velocidad:
+        rb.linearVelocity = newDirection * speedBefore;
     }
 
-    void HandlePaddleTriggerBounce(Collider paddleCol)
+    /// <summary>
+    /// Lógica de rebote cuando es PowerBall y usa trigger en lugar de física normal.
+    /// </summary>
+    void HandlePaddleTriggerBounce(Collider other)
     {
-        Vector3 contact = new Vector3(transform.position.x, 0f, paddleCol.transform.position.z);
-        BounceFromPoint(contact);
+        // 1) Similar: obtenemos el punto más cercano en el paddle al centro de la bola.
+        Vector3 closestPoint = other.ClosestPoint(transform.position);
+
+        // 2) Offset horizontal respecto al centro del Paddle:
+        float paddleCenterX = other.transform.position.x;
+        float offset = closestPoint.x - paddleCenterX;
+
+        // 3) HalfWidth según el collider de paddle que usamos para trigger (puede ser cualquiera de los hijos)
+        float halfWidth = other.bounds.extents.x;
+
+        // 4) Normalizamos:
+        float normalizedOffset = Mathf.Clamp(offset / halfWidth, -1f, 1f);
+
+        // 5) Cálculo del ángulo en radianes:
+        float bounceAngleRad = normalizedOffset * maxBounceAngle * Mathf.Deg2Rad;
+
+        // 6) Dirección nueva:
+        Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad)).normalized;
+
+        // 7) Mantener la velocidad actual (currentSpeed es tu campo que guarda la velocidad actual de la bola):
+        rb.linearVelocity = newDirection * currentSpeed;
     }
 
     void BounceFromPoint(Vector3 contactPt)

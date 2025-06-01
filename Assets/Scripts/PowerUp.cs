@@ -75,6 +75,12 @@ public class PowerUp : MonoBehaviour
                     var paddleCtrl = paddle.GetComponent<PaddleController>();
                     if (paddleCtrl != null)
                         StartCoroutine(HandleExtend(paddleCtrl, duration, true));
+                    else
+                    {
+                        Debug.Log("PowerUp chocó con " + paddle.name + " pero no encontró PaddleController arriba.");
+
+
+                    }
 
                 }
                 break;
@@ -155,6 +161,7 @@ public class PowerUp : MonoBehaviour
 
     IEnumerator HandleExtend(PaddleController pc, float duration, bool expand)
     {
+
         pc.SetExtended(expand);
         if (!expand) yield break;
         yield return new WaitForSeconds(duration);
