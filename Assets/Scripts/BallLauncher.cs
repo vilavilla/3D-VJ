@@ -154,6 +154,15 @@ public class Ball : MonoBehaviour
         switch (other.tag)
         {
             case "Paddle":
+                if (pendingMagnet)
+                {
+                    pendingMagnet = false;
+                    isStuckToPaddle = true;
+                    paddle = other.transform;
+                    magnetOffset = transform.position - paddle.position;
+                    rb.linearVelocity = Vector3.zero;
+                    return;
+                }
                 HandlePaddleTriggerBounce(other);
                 break;
             case "Wall":
