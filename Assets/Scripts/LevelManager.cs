@@ -89,17 +89,82 @@ public class LevelManager : MonoBehaviour
     public void BloqueDestruido(Vector3 bloquePos)
     {
         ++bloquesDestruidos;
-        Debug.Log($"[LevelManager] Bloque destruido {bloquesDestruidos} / {totalBloques-1}");
-        if (bloquesDestruidos == totalBloques-1)
+
+        if (nivelActual+1 == 1)
         {
-            CompletarNivel();
+            Debug.Log($"[LevelManager] Level 1 Bloque destruido {bloquesDestruidos} / {totalBloques - 1}");
+            if (bloquesDestruidos == totalBloques - 1)
+            {
+                CompletarNivel();
+            }
+            if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques - 1))
+            {
+                recompensaAparecida = true;
+                Vector3 spawnPos = bloquePos + Vector3.up * 3f;
+                Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            }
         }
-        if (!recompensaAparecida && bloquesDestruidos >= 0.01f * (totalBloques-1))
+        else if (nivelActual+1 == 2)
         {
-            recompensaAparecida = true;
-            Vector3 spawnPos = bloquePos + Vector3.up * 3f;
-            Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            Debug.Log($"[LevelManager] Level 2 Bloque destruido {bloquesDestruidos} / {totalBloques + 1}");
+            if (bloquesDestruidos == totalBloques + 1)
+            {
+                CompletarNivel();
+            }
+            if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques + 1))
+            {
+                recompensaAparecida = true;
+                Vector3 spawnPos = bloquePos + Vector3.up * 3f;
+                Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            }
         }
+
+        else if (nivelActual + 1 == 3)
+        {
+            Debug.Log($"[LevelManager] Level 3 Bloque destruido {bloquesDestruidos} / {totalBloques - 2}");
+            if (bloquesDestruidos == totalBloques -2)
+            {
+                CompletarNivel();
+            }
+            if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques - 2))
+            {
+                recompensaAparecida = true;
+                Vector3 spawnPos = bloquePos + Vector3.up * 3f;
+                Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+
+        else if (nivelActual + 1 == 4)
+        {
+            Debug.Log($"[LevelManager] Level 4 Bloque destruido {bloquesDestruidos} / {totalBloques + 4}");
+            if (bloquesDestruidos == totalBloques + 4)
+            {
+                CompletarNivel();
+            }
+            if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques + 4))
+            {
+                recompensaAparecida = true;
+                Vector3 spawnPos = bloquePos + Vector3.up * 3f;
+                Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+
+        else if (nivelActual + 1 == 5)
+        {
+            Debug.Log($"[LevelManager] Level 5 Bloque destruido {bloquesDestruidos} / {totalBloques - 1}");
+            if (bloquesDestruidos == totalBloques - 1)
+            {
+                CompletarNivel();
+            }
+            if (!recompensaAparecida && bloquesDestruidos >= 0.95f * (totalBloques - 1))
+            {
+                recompensaAparecida = true;
+                Vector3 spawnPos = bloquePos + Vector3.up * 3f;
+                Instantiate(rewardPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+
+
     }
 
     public void CompletarNivel()

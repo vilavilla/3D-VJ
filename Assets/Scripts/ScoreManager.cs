@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;  // <- Importante
+using TMPro; 
 
 public class ScoreManager : MonoBehaviour
 {
