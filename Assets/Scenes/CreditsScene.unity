@@ -179,19 +179,19 @@ MonoBehaviour:
       m_Calls: []
   m_text: "GAME CREDITS\r\n\r\nUna producci\xF3n de:\r\nLA FACTORIA DE LA FIB\r\n\r\n------------------------------\r\n\r\n\U0001F3AE
     Dise\xF1o y Programaci\xF3n Principal:\r\nJoan Vila\r\n\r\n\U0001F9E0 Mec\xE1nicas,
-    control del juego i gesti\xF3n de niveles:\r\nJoan Vila\r\n\r\n\U0001F3B2 Power-ups
-    i sistemas especiales:\r\nJoan Vila\r\n\r\n\U0001F504 Canvio de pantalles, menu
+    control del juego y gesti\xF3n de niveles:\r\nJoan Vila\r\n\r\n\U0001F3B2 Power-ups
+    y sistemas especiales:\r\nJoan Vila\r\n\r\n\U0001F504 Cambio de pantalles, men\xFA
     y flujo completo:\r\nJoan Vila\r\n\r\n\U0001F4BE Sistema de puntuaci\xF3n:\r\nJoan
     Vila\r\n\r\n------------------------------\r\n\r\n\U0001F3A8 Interf\xEDcie de
-    usuario y pantalles:\r\nMarc Gimeno\r\n\r\n\U0001F39E\uFE0F Escena de cr\xE9ditos
-    animada:\r\nMarc Gimeno\r\n\r\n\U0001F3AC Men\xFA y botones con navegaci\xF3:\r\nMarc
-    Gimeno\r\n\r\n\U0001F3A7 Sonido y musica:\r\nMarc Gimeno\r\n\r\n\U0001F3AD Estilo
-    visual y presentaci\xF3n:\r\nMarc Gimeno\r\n\r\n------------------------------\r\n\r\n\U0001F50D
-    Testing y mejoras finals:\r\nJoan Vila & Marc Gimeno\r\n\r\n\U0001F91D Coordinaci\xF3n
-    y trebajo en equipo:\r\nJoan Vila & Marc Gimeno\r\n\r\n------------------------------\r\n\r\n\U0001F31F
-    Agradecimientos especials:\r\n- Unity Technologies\r\n- La FIB\r\n- La paci\xE8ncia
-    infinita de la consola d'errors\r\n\r\n\xA9 2025 Joan Vila & Marc Gimeno. Tots
-    els drets reservats.\r\n"
+    usuario y pantallas:\r\nMarc Gimeno\r\n\r\n\U0001F39E\uFE0F Escena de cr\xE9ditos
+    animada:\r\nMarc Gimeno\r\n\r\n\U0001F3AC Men\xFA y botones con navegaci\xF3n:\r\nMarc
+    Gimeno\r\n\r\n\U0001F3A7 Sonido y m\xFAsica:\r\nMarc Gimeno\r\n\r\n\U0001F3AD
+    Estilo visual y presentaci\xF3n:\r\nMarc Gimeno\r\n\r\n------------------------------\r\n\r\n\U0001F50D
+    Testing y mejoras finales:\r\nJoan Vila & Marc Gimeno\r\n\r\n\U0001F91D Coordinaci\xF3n
+    y trabajo en equipo:\r\nJoan Vila & Marc Gimeno\r\n\r\n------------------------------\r\n\r\n\U0001F31F
+    Agradecimientos especiales:\r\n- Unity Technologies\r\n- La FIB\n- A nuestro
+    profesor Gen\xEDs Bayona\r\n- La paci\xE8ncia infinita de la consola d'errors\r\n\r\n\xA9
+    2025 Joan Vila & Marc Gimeno. Todos los derechos reservados.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
