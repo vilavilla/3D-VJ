@@ -54,7 +54,16 @@ public class Ball : MonoBehaviour
     void Update()
     {
         timeElapsed += Time.deltaTime;
-        currentSpeed = baseSpeed + speedIncreaseRate * timeElapsed;
+        if (!isPowerBall)
+        {
+            timeElapsed += Time.deltaTime;
+            currentSpeed = baseSpeed + speedIncreaseRate * timeElapsed;
+        }
+        else
+        {
+            // Mantiene currentSpeed en baseSpeed mientras sea PowerBall
+            currentSpeed = baseSpeed;
+        }
 
         if (isStuckToPaddle && paddle != null)
         {
@@ -106,15 +115,16 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        // Suena en cualquier choque f�sico (si no es PowerBall)
-        if (!isPowerBall && collisionClip != null && !col.gameObject.CompareTag("Ground"))
-            audioSrc.PlayOneShot(collisionClip, collisionVolume);
-
         if (isPowerBall)
         {
             Debug.Log($"Ignorando colisi�n con {col.gameObject.name} porque est� activo PowerBall.");
             return;
         }
+        // Suena en cualquier choque f�sico (si no es PowerBall)
+        if (!isPowerBall && collisionClip != null && !col.gameObject.CompareTag("Ground"))
+            audioSrc.PlayOneShot(collisionClip, collisionVolume);
+
+       
 
         if (col.gameObject.CompareTag("Paddle"))
         {
@@ -150,7 +160,7 @@ public class Ball : MonoBehaviour
                 Vector3 closest = other.ClosestPoint(transform.position);
                 Vector3 normal = (transform.position - closest).normalized;
                 Vector3 newDir = Vector3.Reflect(rb.linearVelocity.normalized, normal);
-                rb.linearVelocity = newDir * currentSpeed;
+                rb.linearVelocity = newDir * baseSpeed;
                 break;
             default:
                 break;
@@ -221,7 +231,7 @@ public class Ball : MonoBehaviour
         Vector3 newDirection = new Vector3(Mathf.Sin(bounceAngleRad), 0f, Mathf.Cos(bounceAngleRad)).normalized;
 
         // 7) Mantener la velocidad actual (currentSpeed es tu campo que guarda la velocidad actual de la bola):
-        rb.linearVelocity = newDirection * currentSpeed;
+        rb.linearVelocity = newDirection * baseSpeed;
     }
 
     void BounceFromPoint(Vector3 contactPt)
@@ -253,4 +263,6 @@ public class Ball : MonoBehaviour
     {
         pendingMagnet = true;
     }
+
+
 }

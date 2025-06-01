@@ -141,12 +141,16 @@ public class PowerUp : MonoBehaviour
                 foreach (var b in balls)
                 {
                     Instantiate(
-                        ballPrefab,
-                        paddle.transform.position + Vector3.up * 0.5f,
-                        Quaternion.identity
-                    );
+                          ballPrefab,
+                          paddle.transform.position
+                              + Vector3.up * 0.5f
+                              + Vector3.forward * 5.5f,  // +Z positivo (0.5f + 2f)
+                          Quaternion.identity
+                      );
+
                 }
                 break;
+
 
             case PowerUpType.Magnet:
                 {
@@ -177,7 +181,6 @@ public class PowerUp : MonoBehaviour
 
     IEnumerator HandleExtend(PaddleController pc, float duration, bool expand)
     {
-
         pc.SetExtended(expand);
         if (!expand) yield break;
         yield return new WaitForSeconds(duration);

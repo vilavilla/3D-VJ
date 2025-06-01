@@ -80,21 +80,11 @@ public class PaddleController : MonoBehaviour
                 if (leftExt != null) leftExt.SetActive(true);
                 return;
             }
-            // 3) Si ambas extensiones ya están activas, habilita la zona CENTRAL final
-            if (centerCollider != null && !centerCollider.enabled)
-            {
-                centerCollider.enabled = true;
-                return;
-            }
+           
         }
         else
         {
-            // 1) Si la zona CENTRAL está activa, desactívala primero
-            if (centerCollider != null && centerCollider.enabled)
-            {
-                centerCollider.enabled = false;
-                return;
-            }
+  
             // 2) Si la central ya estaba inactiva, desactiva la extensión IZQUIERDA
             if (leftExtCollider != null && leftExtCollider.enabled)
             {
