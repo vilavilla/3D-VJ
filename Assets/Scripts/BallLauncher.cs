@@ -12,7 +12,6 @@ public class Ball : MonoBehaviour
 
     [Header("PowerBall")]
     public bool isPowerBall = false;
-    public float powerBallDuration = 5f;
 
     [Header("Sonido de Colisi�n")]
     [Tooltip("Clip que suena cada vez que la bola choca")]
@@ -73,8 +72,7 @@ public class Ball : MonoBehaviour
             powerBallTimer -= Time.deltaTime;
             if (ballCollider != null && !ballCollider.isTrigger)
                 ballCollider.isTrigger = true;
-            if (powerBallTimer <= 0f)
-                DeactivatePowerBall();
+            
         }
 
         // Asegura componente Z m�nimo
@@ -140,6 +138,8 @@ public class Ball : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!isPowerBall) return;
+        if ( collisionClip != null && !other.gameObject.CompareTag("Ground"))
+            audioSrc.PlayOneShot(collisionClip, collisionVolume);
 
         switch (other.tag)
         {
@@ -234,12 +234,10 @@ public class Ball : MonoBehaviour
         rb.linearVelocity = dir * currentSpeed;
     }
 
-    public void ActivatePowerBall(float duration)
+    public void ActivatePowerBall( )
     {
         if (isPowerBall) return;
         isPowerBall = true;
-        powerBallDuration = duration;
-        powerBallTimer = duration;
         if (ballCollider != null)
             ballCollider.isTrigger = true;
     }

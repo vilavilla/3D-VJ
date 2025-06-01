@@ -119,7 +119,7 @@ public class PowerUp : MonoBehaviour
                 {
                     Debug.Log($"Calling ActivatePowerBall {duration}");
 
-                    ballOn.ActivatePowerBall(duration);
+                    ballOn.ActivatePowerBall();
                 }
                 break;
 

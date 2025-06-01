@@ -130,13 +130,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 5
   type: 5
-  duration: 1
   paddleMultiplier: 1.5
   clampMaxMultiplier: 2
   clampMinMultiplier: 0.75
   ballPrefab: {fileID: 0}
-  extraBalls: 2
   speedDelta: 2
+  pickUpSound: {fileID: 8300000, guid: bdc587c3599e89b4682e86d807c6c237, type: 3}
+  scoreAmount: 100
 --- !u!135 &9131248417537423101
 SphereCollider:
   m_ObjectHideFlags: 0
