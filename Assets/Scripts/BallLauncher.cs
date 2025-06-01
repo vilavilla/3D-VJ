@@ -131,7 +131,7 @@ public class Ball : MonoBehaviour
             }
             HandlePaddleBounce(col);
         }
-        else if (col.gameObject.CompareTag("RewardBall"))
+        else if (col.gameObject.CompareTag("RewardBall") || (col.gameObject.CompareTag("PaddleAux" )))
         {
             Physics.IgnoreCollision(ballCollider, col.collider);
         }

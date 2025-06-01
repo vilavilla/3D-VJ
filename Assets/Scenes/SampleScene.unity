@@ -452,7 +452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 15473680}
   leftExtCollider: {fileID: 15473679}
   rightExtCollider: {fileID: 15473678}
@@ -586,7 +585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057213216004437826, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.946021
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 9057213216004437826, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_LocalPosition.y
@@ -662,7 +661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -707,7 +705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -1740,7 +1737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -1832,7 +1828,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.17369889, y: 0.08083855, z: 0.11579926}
   m_Center: {x: -0.057900522, y: 0.040419158, z: -0.028949292}
@@ -1848,7 +1844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -2917,7 +2912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: PaddleAux
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -8537001910261599748, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
@@ -3569,7 +3564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2100086993889385464, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.531021
+      value: -6.7
       objectReference: {fileID: 0}
     - target: {fileID: 2100086993889385464, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3670,7 +3665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -9993,7 +9987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809706334242690962, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.208979
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 1809706334242690962, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10097,7 +10091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -10768,7 +10761,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.17369889, y: 0.08083855, z: 0.11579926}
   m_Center: {x: -0.05790053, y: 0.040419158, z: -0.028949292}
@@ -10784,7 +10777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -12066,7 +12058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 763307922}
   leftExtCollider: {fileID: 763307921}
   rightExtCollider: {fileID: 763307920}
@@ -12509,7 +12500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 781428381}
   leftExtCollider: {fileID: 781428380}
   rightExtCollider: {fileID: 781428379}
@@ -18279,7 +18269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &888015902
 Transform:
   m_ObjectHideFlags: 0
@@ -19489,7 +19479,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2100086993889385464, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3689785
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 2100086993889385464, guid: 275384329ac96114da4782d050dbd699, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19589,7 +19579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -20048,7 +20037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809706334242690962, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.8
+      value: -5.9
       objectReference: {fileID: 0}
     - target: {fileID: 1809706334242690962, guid: 47c725d3548d6384192e503e2e7aa339, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20152,7 +20141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -20444,7 +20432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1101458053
 Transform:
   m_ObjectHideFlags: 0
@@ -22168,7 +22156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 1293794203}
   leftExtCollider: {fileID: 1293794202}
   rightExtCollider: {fileID: 1293794201}
@@ -22505,7 +22492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5986009884477868973, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.79999
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5986009884477868973, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22549,11 +22536,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: PaddleAux
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5658237245835959641, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
@@ -22950,7 +22937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057213216004437826, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.0839791
+      value: 3.12
       objectReference: {fileID: 0}
     - target: {fileID: 9057213216004437826, guid: f851d86f5f454c349abb7d2a780f7829, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23026,7 +23013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -23071,7 +23057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -23737,7 +23722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_TagString
@@ -23761,7 +23746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2292100758248347424, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3889787
+      value: 3.82
       objectReference: {fileID: 0}
     - target: {fileID: 2292100758248347424, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23861,7 +23846,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -25768,7 +25752,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.17369889, y: 0.08083855, z: 0.11579926}
   m_Center: {x: -0.057900514, y: 0.040419158, z: -0.028949292}
@@ -25784,7 +25768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -26163,7 +26146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -26314,7 +26296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1478585657251827098, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_TagString
@@ -26338,7 +26320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2292100758248347424, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.611021
+      value: -7.05
       objectReference: {fileID: 0}
     - target: {fileID: 2292100758248347424, guid: f4d52c15b282b324d8a85c9993eb36a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26438,7 +26420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -26548,7 +26529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -27060,7 +27040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 0}
   leftExtCollider: {fileID: 0}
   rightExtCollider: {fileID: 0}
@@ -27416,7 +27395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5986009884477868973, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.78
+      value: 4.9
       objectReference: {fileID: 0}
     - target: {fileID: 5986009884477868973, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27460,11 +27439,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6366195323449610519, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: PaddleAux
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5658237245835959641, guid: 8a5617a53643f1f428c48c2cd06de91e, type: 3}
@@ -28296,7 +28275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5b0216b819d642962388fae10205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBounceAngle: 60
   centerCollider: {fileID: 2144974518}
   leftExtCollider: {fileID: 2144974517}
   rightExtCollider: {fileID: 2144974516}

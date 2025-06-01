@@ -17,6 +17,8 @@ public class PaddleController : MonoBehaviour
     [Header("Extensiones para power-up Expand/Shrink (solo visual)")]
     public GameObject leftExt;   // El hijo que contiene la malla + BoxCollider de la extensión izquierda
     public GameObject rightExt;  // El hijo que contiene la malla + BoxCollider de la extensión derecha
+    private float minX = -22.3f; // Límite izquierdo del paddle  
+    private float maxX = 24f; // Límite derecho del paddle
 
     void Awake()
     {
@@ -42,10 +44,15 @@ public class PaddleController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Movemos usando rb.velocity en lugar de rb.linearVelocity
-        float h = Input.GetAxis("Horizontal"); // -1..+1
+        // 1) Leemos el input horizontal (-1..+1) y calculamos la velocidad deseada en X
+        float h = Input.GetAxis("Horizontal");
         Vector3 vel = new Vector3(h * speed, 0f, 0f);
         rb.linearVelocity = vel;
+
+        // 2) Una vez aplicada la velocidad, limitamos la posición X para que no salga de [minX, maxX]
+        Vector3 clampedPos = transform.position;
+        clampedPos.x = Mathf.Clamp(clampedPos.x, minX, maxX);
+        transform.position = clampedPos;
     }
 
    

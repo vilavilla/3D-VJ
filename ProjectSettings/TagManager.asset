@@ -13,6 +13,7 @@ TagManager:
   - Cama
   - RewardBall
   - Sofa
+  - PaddleAux
   layers:
   - Default
   - TransparentFX
